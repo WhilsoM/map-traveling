@@ -1,8 +1,19 @@
 interface ButtonUiProps {
 	type: 'submit' | 'button'
-	variants: 'fill'
+	variants?: 'fill'
+	children: React.ReactNode
+	onClick?: () => void
 }
 
-export const ButtonUi = ({ type }: ButtonUiProps) => {
-	return <button type={type}></button>
+export const ButtonUi = ({
+	type,
+	variants,
+	children,
+	onClick,
+}: ButtonUiProps) => {
+	return (
+		<button onClick={onClick} type={type}>
+			{children}
+		</button>
+	)
 }
