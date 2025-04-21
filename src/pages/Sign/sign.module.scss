@@ -1,0 +1,43 @@
+@use '@assets/styles/global' as *;
+.form {
+	margin-bottom: 1rem;
+}
+
+.sign-up-methods {
+	.methods-wrapper {
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 1rem;
+
+		button {
+			border-radius: 1rem;
+		}
+	}
+}
+
+.button-submit {
+	width: 100%;
+}
+.sign-up-text {
+	font-size: 1.4rem;
+	margin-bottom: 0.8rem;
+}
+
+.sign-text {
+	font-size: 1.123rem;
+	font-weight: 400;
+	color: $accent-color;
+	margin-bottom: 10px;
+	text-align: center;
+}
+.sign-link {
+	text-decoration: underline;
+	transition: color 0.3s ease;
+}
+.sign-link:hover {
+	color: $hover-blue-color;
+}
+.error {
+	color: rgb(176, 2, 2);
+	margin-bottom: 5px;
+}

@@ -1,10 +1,11 @@
 interface InputUiProps {
-	type: 'email' | 'password' | 'text'
+	type: 'email' | 'password' | 'text' | 'tel'
 	id: string
 	variants: 'outlined'
 	placeholder?: string
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 	value?: string
+	className?: string
 }
 
 export const InputUi = ({
@@ -14,6 +15,8 @@ export const InputUi = ({
 	placeholder,
 	onChange,
 	value,
+	className,
+	...props
 }: InputUiProps) => {
 	return (
 		<input
@@ -21,8 +24,9 @@ export const InputUi = ({
 			onChange={onChange}
 			type={type}
 			id={id}
-			className={variants}
+			className={`${variants} ${className}`}
 			placeholder={placeholder}
+			{...props}
 		/>
 	)
 }

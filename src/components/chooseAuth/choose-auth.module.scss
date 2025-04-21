@@ -1,0 +1,15 @@
+@use '@assets/styles/global' as *;
+
+.label {
+	display: block;
+	margin-bottom: 0.5rem;
+	color: $text-color;
+	font-weight: 500;
+	font-size: 0.9rem;
+}
+.input {
+	display: block;
+	color: $text-color;
+	margin-bottom: 0.5rem;
+	width: 100%;
+}

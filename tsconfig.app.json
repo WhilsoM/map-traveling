@@ -29,10 +29,11 @@
 			"@components/*": ["components/*"],
 			"@pages/*": ["pages/*"],
 			"@stores/*": ["stores/*"],
-			"@types/*": ["types/*"],
-			"@widgets/*": ["widgets/*"],
 			"@api/*": ["shared/api/*"],
-			"@ui/*": ["shared/ui/*"]
+			"@ui/*": ["shared/ui/*"],
+			"@shared/*": ["shared/*"],
+			"@types/*": ["types/*"],
+			"@widgets/*": ["widgets/*"]
 		}
 	},
 	"include": ["src"]
