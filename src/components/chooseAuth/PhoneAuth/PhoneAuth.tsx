@@ -1,21 +1,174 @@
-import { InputUi } from '@shared/ui'
-import s from '../choose-auth.module.scss'
-import { PhoneProps } from '../types'
+import { auth } from '@api/firebase'
+import { ButtonUi, InputUi } from '@shared/ui'
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
 
-export const PhoneAuth = ({ phone, setPhone }: PhoneProps) => {
+import { useEffect, useRef, useState } from 'react'
+import s from '../choose-auth.module.scss'
+import { AuthProps } from '../types'
+
+const CODE_LENGTH = 6
+
+export const PhoneAuth = ({ id }: AuthProps) => {
+	const [phone, setPhone] = useState('')
+	const [code, setCode] = useState('')
+	const [error, setError] = useState({ message: '' })
+	const [confirmationResult, setConfirmationResult] = useState<any>(null)
+	const [values, setValues] = useState<string[]>(Array(CODE_LENGTH).fill(''))
+	const inputsRef = useRef<HTMLInputElement[]>([])
+
+	const recaptchaContainer = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		if (!(window as any).recaptchaVerifier && recaptchaContainer.current) {
+			window.recaptchaVerifier = new RecaptchaVerifier(
+				auth,
+				recaptchaContainer.current,
+				{
+					size: 'invisible',
+					callback: () => {
+						console.log('reCAPTCHA пройден')
+					},
+				}
+			)
+		}
+	}, [])
+	useEffect(() => {
+		let fullCode = ''
+		for (let i = 0; i < inputsRef.current.length; i++) {
+			fullCode += inputsRef.current[i].value
+		}
+
+		setCode(fullCode)
+		console.log(code)
+	}, [inputsRef])
+	const sendCode = async () => {
+		const verifier = (window as any).recaptchaVerifier
+
+		try {
+			const result = await signInWithPhoneNumber(auth, phone, verifier)
+
+			setConfirmationResult(result)
+			console.log('Код отправлен!')
+		} catch (error) {
+			setError({
+				message:
+					'Ошибка отправки кода, пожалуйста проверьте правильность номера телефона',
+			})
+			console.error('Ошибка отправки кода:', error)
+		}
+	}
+
+	const verifyCode = async () => {
+		try {
+			const res = await confirmationResult.confirm(code)
+
+			console.log('Пользователь вошёл:', res.user)
+		} catch (err) {
+			setError({
+				message: 'Вы ввели неверный код, пожалуйста повторите попытку',
+			})
+			console.error('Неверный код:', err)
+		}
+	}
+
+	const handleChange = (value: string, index: number) => {
+		if (!/^\d?$/.test(value)) return
+
+		const newValues = [...values]
+		newValues[index] = value
+		setValues(newValues)
+
+		if (value && index < CODE_LENGTH - 1) {
+			inputsRef.current[index + 1]?.focus()
+		}
+	}
+
+	const handleKeyDown = (
+		e: React.KeyboardEvent<HTMLInputElement>,
+		index: number
+	) => {
+		if (e.key === 'Backspace' && !values[index] && index > 0) {
+			inputsRef.current[index - 1]?.focus()
+		}
+	}
+
+	const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+		const paste = e.clipboardData.getData('text').slice(0, CODE_LENGTH)
+		if (!/^\d+$/.test(paste)) return
+
+		const pasteArray = paste.split('')
+		const newValues = [...values]
+
+		pasteArray.forEach((char, i) => {
+			if (i < CODE_LENGTH) {
+				newValues[i] = char
+				inputsRef.current[i]?.focus()
+			}
+		})
+
+		setValues(newValues)
+	}
+
 	return (
 		<>
-			<label className={s.label} htmlFor='phoneNumber'>
-				Номер телефона
-			</label>
-			<InputUi
-				className={s.input}
-				type='tel'
-				id='phoneNumber'
-				variants='outlined'
-				value={phone}
-				onChange={(e) => setPhone(e.target.value)}
-			/>
+			<form
+				id={id}
+				className={s.form}
+				onSubmit={(e) => {
+					e.preventDefault()
+				}}
+			>
+				<label className={s.label} htmlFor='phoneNumber'>
+					Номер телефона
+				</label>
+				<InputUi
+					className={s.input}
+					type='tel'
+					inputMode='numeric'
+					id='phoneNumber'
+					variants='outlined'
+					value={phone}
+					onChange={(e) => setPhone(e.target.value)}
+				/>
+
+				<ButtonUi
+					disabled={phone.length < 5}
+					className={`${s.sendCode} ${phone.length < 5 ? s.disabled : null}`}
+					onClick={sendCode}
+				>
+					Отправить код
+				</ButtonUi>
+
+				<div ref={recaptchaContainer}></div>
+
+				{confirmationResult && (
+					<>
+						{values.map((value, i) => (
+							<InputUi
+								key={i}
+								ref={(el) => {
+									inputsRef.current[i] = el
+								}}
+								type='text'
+								inputMode='numeric'
+								variants='outlined'
+								maxLength={1}
+								className={s['input-code']}
+								value={value}
+								onChange={(e) => handleChange(e.target.value, i)}
+								onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
+									handleKeyDown(e, i)
+								}
+								onPaste={handlePaste}
+							/>
+						))}
+						<ButtonUi variants='fill' onClick={verifyCode}>
+							Подтвердить
+						</ButtonUi>
+					</>
+				)}
+			</form>
+			{error.message.length !== 1 && <p className='error'>{error.message}</p>}
 		</>
 	)
 }

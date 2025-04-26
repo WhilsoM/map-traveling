@@ -1,11 +1,24 @@
 interface InputUiProps {
-	type: 'email' | 'password' | 'text' | 'tel'
-	id: string
+	type: 'email' | 'password' | 'text' | 'tel' | 'number'
+	id?: string
 	variants: 'outlined'
 	placeholder?: string
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 	value?: string
 	className?: string
+	min?: number
+	max?: number
+	maxLength?: number
+	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+	inputMode?:
+		| 'email'
+		| 'text'
+		| 'tel'
+		| 'search'
+		| 'url'
+		| 'none'
+		| 'numeric'
+		| 'decimal'
 }
 
 export const InputUi = ({
@@ -16,6 +29,11 @@ export const InputUi = ({
 	onChange,
 	value,
 	className,
+	min,
+	max,
+	maxLength,
+	inputMode,
+	onKeyDown,
 	...props
 }: InputUiProps) => {
 	return (
@@ -26,6 +44,11 @@ export const InputUi = ({
 			id={id}
 			className={`${variants} ${className}`}
 			placeholder={placeholder}
+			min={min}
+			max={max}
+			maxLength={maxLength}
+			inputMode={inputMode}
+			onKeyDown={() => onKeyDown}
 			{...props}
 		/>
 	)

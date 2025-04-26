@@ -4,6 +4,8 @@ interface ButtonUiProps {
 	children: React.ReactNode
 	onClick?: () => void
 	className?: string
+	form?: string
+	disabled?: boolean
 }
 
 export const ButtonUi = ({
@@ -12,13 +14,17 @@ export const ButtonUi = ({
 	children,
 	onClick,
 	className,
+	form,
+	disabled,
 	...props
 }: ButtonUiProps) => {
 	return (
 		<button
+			form={form}
 			className={`btn ${variants} ${className}`}
 			onClick={onClick}
 			type={type}
+			disabled={disabled}
 			{...props}
 		>
 			{children}

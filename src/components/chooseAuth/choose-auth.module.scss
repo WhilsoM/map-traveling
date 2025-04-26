@@ -13,3 +13,33 @@
 	margin-bottom: 0.5rem;
 	width: 100%;
 }
+.sendCode {
+	margin-bottom: 10px;
+}
+.input-code {
+	width: 2rem;
+	height: 2rem;
+	border-radius: $border-radius-elements;
+}
+.disabled {
+	opacity: 0.7 !important;
+	cursor: not-allowed !important;
+	pointer-events: all !important;
+}
+.disabled:hover {
+	opacity: 0.7 !important;
+	cursor: not-allowed !important;
+	pointer-events: all !important;
+}
+/* Chrome, Safari, Edge */
+.input-code::-webkit-inner-spin-button,
+.input-code::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+.input-code {
+	-moz-appearance: textfield;
+	appearance: textfield;
+}

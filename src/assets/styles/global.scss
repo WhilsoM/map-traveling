@@ -87,3 +87,8 @@ input.outlined {
 input.outlined:focus {
 	border: 1px solid $hover-blue-color;
 }
+
+.error {
+	color: rgb(176, 2, 2);
+	margin-bottom: 5px;
+}

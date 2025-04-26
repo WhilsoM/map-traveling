@@ -17,6 +17,7 @@
 
 .button-submit {
 	width: 100%;
+	margin-bottom: 0.8rem;
 }
 .sign-up-text {
 	font-size: 1.4rem;
@@ -27,7 +28,7 @@
 	font-size: 1.123rem;
 	font-weight: 400;
 	color: $accent-color;
-	margin-bottom: 10px;
+	margin-bottom: 0.8rem;
 	text-align: center;
 }
 .sign-link {
@@ -36,8 +37,4 @@
 }
 .sign-link:hover {
 	color: $hover-blue-color;
-}
-.error {
-	color: rgb(176, 2, 2);
-	margin-bottom: 5px;
 }
