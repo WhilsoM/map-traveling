@@ -10,6 +10,8 @@ interface InputUiProps {
 	max?: number
 	maxLength?: number
 	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+	onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void
+	Ref?: any
 	inputMode?:
 		| 'email'
 		| 'text'
@@ -31,6 +33,7 @@ export const InputUi = ({
 	className,
 	min,
 	max,
+	Ref,
 	maxLength,
 	inputMode,
 	onKeyDown,
@@ -49,6 +52,7 @@ export const InputUi = ({
 			maxLength={maxLength}
 			inputMode={inputMode}
 			onKeyDown={() => onKeyDown}
+			ref={Ref}
 			{...props}
 		/>
 	)

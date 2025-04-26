@@ -60,25 +60,25 @@ export const EmailAuth = ({ id }: AuthProps) => {
 					registerWithEmail(email, password)
 				}}
 			>
-				<label className={s.label} htmlFor='email'>
+				<label className='label' htmlFor='email'>
 					Почта
 				</label>
 				<InputUi
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
-					className={s.input}
+					className='input'
 					id='email'
 					variants='outlined'
 					type='email'
 				/>
 
-				<label className={s.label} htmlFor='password'>
+				<label className={'label'} htmlFor='password'>
 					Пароль
 				</label>
 				<InputUi
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
-					className={s.input}
+					className={'input'}
 					id='password'
 					variants='outlined'
 					type='password'

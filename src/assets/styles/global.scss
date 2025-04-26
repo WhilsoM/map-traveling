@@ -22,6 +22,26 @@ $font-family-Manrope: 'Manrope', sans-serif;
 $font-size-text: clamp(1rem, 1vw + 0.5rem, 1.2rem);
 $font-size-title: clamp(1.7rem, 3.5vw, 2.5rem);
 
+// MIXINS
+@mixin flexCenter() {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@mixin flexBetween() {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+@mixin flexColumn() {
+	display: flex;
+	flex-direction: column;
+}
+
+@mixin transition($el, $time, $type) {
+	transition: $el $time $type;
+}
+
 /* Тёмная тема */
 [data-theme='dark'] {
 	$bg-color: #121212;
@@ -49,6 +69,19 @@ html {
 	font-weight: 700;
 	margin-bottom: 15px;
 	color: $text-color;
+}
+.label {
+	display: block;
+	margin-bottom: 0.5rem;
+	color: $text-color;
+	font-weight: 500;
+	font-size: 0.9rem;
+}
+.input {
+	display: block;
+	color: $text-color;
+	margin-bottom: 0.5rem;
+	width: 100%;
 }
 .btn {
 	cursor: pointer;

@@ -14,7 +14,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 	const [error, setError] = useState({ message: '' })
 	const [confirmationResult, setConfirmationResult] = useState<any>(null)
 	const [values, setValues] = useState<string[]>(Array(CODE_LENGTH).fill(''))
-	const inputsRef = useRef<HTMLInputElement[]>([])
+	const inputsRef = useRef<(HTMLInputElement | null)[]>([])
 
 	const recaptchaContainer = useRef<HTMLDivElement>(null)
 
@@ -118,11 +118,11 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 					e.preventDefault()
 				}}
 			>
-				<label className={s.label} htmlFor='phoneNumber'>
+				<label className={'label'} htmlFor='phoneNumber'>
 					Номер телефона
 				</label>
 				<InputUi
-					className={s.input}
+					className={'input'}
 					type='tel'
 					inputMode='numeric'
 					id='phoneNumber'
@@ -146,8 +146,8 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 						{values.map((value, i) => (
 							<InputUi
 								key={i}
-								ref={(el) => {
-									inputsRef.current[i] = el
+								Ref={(el) => {
+									return (inputsRef.current[i] = el)
 								}}
 								type='text'
 								inputMode='numeric'

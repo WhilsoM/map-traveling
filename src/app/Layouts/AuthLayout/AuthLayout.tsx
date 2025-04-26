@@ -9,7 +9,7 @@ export const AuthLayout = () => {
 
 	useEffect(() => {
 		if (user) {
-			navigate('/home')
+			navigate('/page/home')
 		}
 	}, [user, navigate])
 
