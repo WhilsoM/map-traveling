@@ -7,7 +7,7 @@ $gray-color: #e9e7eb;
 $text-color: #000;
 $accent-color: #929292;
 $bg-color: #fff;
-
+$red-color: #c71717;
 // HOVER
 $hover-blue-color: #63a6f0;
 
@@ -111,7 +111,7 @@ button.fill.active {
 // button.outlined.active {
 // }
 
-input.outlined {
+.outlined {
 	padding: 5px 5px;
 	border-radius: $border-radius-elements;
 	border: 1px solid $accent-color;

@@ -5,6 +5,15 @@
 }
 
 .saveData {
-	margin-top: 25px;
+	margin-top: 1.725rem;
 	width: 100%;
+}
+.profile__form {
+	margin-bottom: 1.5rem;
+}
+.logout {
+	width: 100%;
+	border: 1px solid $red-color;
+	background-color: $bg-color !important;
+	color: $red-color !important;
 }

@@ -35,7 +35,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 	useEffect(() => {
 		let fullCode = ''
 		for (let i = 0; i < inputsRef.current.length; i++) {
-			fullCode += inputsRef.current[i].value
+			fullCode += inputsRef.current[i]?.value
 		}
 
 		setCode(fullCode)
@@ -147,6 +147,9 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 							<InputUi
 								key={i}
 								Ref={(el) => {
+									console.log(inputsRef.current[i])
+									console.log(el)
+
 									return (inputsRef.current[i] = el)
 								}}
 								type='text'

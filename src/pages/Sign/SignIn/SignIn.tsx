@@ -1,50 +1,51 @@
 import { EmailAuth, PhoneAuth } from '@components/ChooseAuth'
+import { formEmailSignIn, formPhoneSignIn } from '@shared/config/const'
 import { ButtonUi } from '@ui/index'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 import s from '../sign.module.scss'
 
 export const SignIn = () => {
-	const { handleSubmit } = useForm()
-	const [email, setEmail] = useState('')
-	const [phone, setPhone] = useState('')
-	const [activeTab, setActiveTab] = useState('phone')
-	const navigate = useNavigate()
-	// TODO: FIX THIS PAGE TWO FORMS AND MAKE CREATE
+	const [activeTab, setActiveTab] = useState('email')
+
+	let condition = activeTab === 'email' ? formEmailSignIn : formPhoneSignIn
+
 	return (
 		<div className='container container-wrapper'>
 			<h1 className='section-title'>Авторизация</h1>
 
-			<form className={s.form}>
-				{activeTab === 'email' && <EmailAuth setEmail={setEmail} />}
-				{activeTab === 'phone' && <PhoneAuth setPhone={setPhone} />}
+			{activeTab === 'email' && (
+				<EmailAuth method='auth' id={formEmailSignIn} />
+			)}
+			{activeTab === 'phone' && (
+				<PhoneAuth method='auth' id={formPhoneSignIn} />
+			)}
 
-				<div className={`${s['sign-up-methods']}`}>
-					<p className={s['sign-up-text']}>Методы регистрации</p>
+			{/* SLICE TO COMPONENT THIS */}
+			<div className={`${s['sign-up-methods']}`}>
+				<p className={s['sign-up-text']}>Методы регистрации</p>
 
-					<div className={`${s['methods-wrapper']}`}>
-						<ButtonUi
-							className={activeTab === 'email' ? 'active' : ''}
-							onClick={() => setActiveTab('email')}
-							type='button'
-						>
-							Почта
-						</ButtonUi>
-						<ButtonUi
-							className={activeTab === 'phone' ? 'active' : ''}
-							onClick={() => setActiveTab('phone')}
-							type='button'
-						>
-							Номер телефона
-						</ButtonUi>
-					</div>
+				<div className={`${s['methods-wrapper']}`}>
+					<ButtonUi
+						className={activeTab === 'email' ? 'active' : ''}
+						onClick={() => setActiveTab('email')}
+						type='button'
+					>
+						Почта
+					</ButtonUi>
+					<ButtonUi
+						className={activeTab === 'phone' ? 'active' : ''}
+						onClick={() => setActiveTab('phone')}
+						type='button'
+					>
+						Номер телефона
+					</ButtonUi>
 				</div>
+			</div>
 
-				<ButtonUi className={s['button-submit']} type='submit'>
-					Войти в аккаунт
-				</ButtonUi>
-			</form>
+			<ButtonUi form={condition} className={s['button-submit']} type='submit'>
+				Войти в аккаунт
+			</ButtonUi>
 
 			<p className={s['sign-text']}>
 				Нету аккаунта ?{' '}

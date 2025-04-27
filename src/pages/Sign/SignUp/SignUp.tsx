@@ -1,4 +1,5 @@
 import { EmailAuth, PhoneAuth } from '@components/ChooseAuth'
+import { formEmailSignUp, formPhoneSignUp } from '@shared/config/const'
 import { ButtonUi } from '@ui/index'
 import { useState } from 'react'
 import { Link } from 'react-router'
@@ -7,16 +8,20 @@ import s from '../sign.module.scss'
 export const SignUp = () => {
 	const [activeTab, setActiveTab] = useState('email')
 
-	let condition =
-		activeTab === 'email' ? 'form-email-sign-up' : 'form-phone-sign-up'
+	let condition = activeTab === 'email' ? formEmailSignUp : formPhoneSignUp
 
 	return (
 		<div className={`${s['sign-up']} container container-wrapper`}>
 			<h1 className='section-title'>Регистрация</h1>
 
-			{activeTab === 'email' && <EmailAuth id='form-email-sign-up' />}
-			{activeTab === 'phone' && <PhoneAuth id='form-phone-sign-up' />}
+			{activeTab === 'email' && (
+				<EmailAuth method='register' id={formEmailSignUp} />
+			)}
+			{activeTab === 'phone' && (
+				<PhoneAuth method='register' id={formPhoneSignUp} />
+			)}
 
+			{/* SLICE TO COMPONENT THIS */}
 			<div className={`${s['sign-up-methods']}`}>
 				<p className={s['sign-up-text']}>Методы регистрации</p>
 
