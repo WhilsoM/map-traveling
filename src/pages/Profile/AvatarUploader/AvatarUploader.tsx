@@ -1,38 +1,13 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import s from './avatar-uploader.module.scss'
 
 interface AvatarUploaderProps {
 	avatar: string
 	onChange: any
-	compressImage: any
 }
 
-export const AvatarUploader = ({
-	avatar,
-	onChange,
-	compressImage,
-}: AvatarUploaderProps) => {
-	const [error, setError] = useState('')
+export const AvatarUploader = ({ avatar, onChange }: AvatarUploaderProps) => {
 	const fileInputRef = useRef<HTMLInputElement>(null)
-
-	const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0]
-		if (!file) return
-
-		if (!file.type.match('image/(jpeg|png|jpg)')) {
-			setError('Допустимы только JPG/PNG изображения!')
-			return
-		}
-
-		try {
-			// Сжимаем изображение перед загрузкой
-			const compressedBase64 = await compressImage(file)
-			onChange({ target: { files: [file] } }) // Сохраняем файл
-			setError('')
-		} catch (error) {
-			setError('Ошибка обработки изображения')
-		}
-	}
 
 	const handleButtonClick = () => {
 		fileInputRef?.current?.click()
@@ -65,7 +40,6 @@ export const AvatarUploader = ({
 					/>
 				</div>
 			)}
-			{error && <p className='error-text'>{error}</p>}
 		</div>
 	)
 }

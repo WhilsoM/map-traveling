@@ -137,11 +137,7 @@ export const Profile = () => {
 		<div className={`container ${s.profile}`}>
 			<h2 className='section-title tac'>Настройки Аккаунта</h2>
 
-			<AvatarUploader
-				avatar={avatar}
-				onChange={handleUpload}
-				compressImage={compressImage}
-			/>
+			<AvatarUploader avatar={avatar} onChange={handleUpload} />
 
 			<form onSubmit={handleSubmit} className={s.profile__form}>
 				<label className='label' htmlFor='name'>
