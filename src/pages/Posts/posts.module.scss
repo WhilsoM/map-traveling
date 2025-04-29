@@ -1,0 +1,36 @@
+@use '@assets/styles/global' as *;
+// POSTS
+.posts {
+	margin-top: 1.5rem !important;
+	height: 89vh;
+	overflow-y: scroll;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.emptyPosts {
+	color: $accent-color;
+	font-size: 1.3rem;
+	text-align: center;
+}
+
+// POST
+.post {
+	margin-bottom: 1.725rem;
+	&__wrapper_img {
+		margin-bottom: 1rem;
+	}
+}
+.where {
+	@include flexColumn();
+	& p {
+		margin-bottom: 0.5rem;
+	}
+	& > p span:first-of-type {
+		margin-right: 2px;
+	}
+}
+.travel_about {
+	color: $text-color;
+}
