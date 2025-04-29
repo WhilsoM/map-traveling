@@ -37,6 +37,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 		for (let i = 0; i < inputsRef.current.length; i++) {
 			fullCode += inputsRef.current[i]?.value
 		}
+		console.log(fullCode)
 
 		setCode(fullCode)
 		console.log(code)

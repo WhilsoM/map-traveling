@@ -18,6 +18,7 @@ export const AvatarUploader = () => {
 			setError('Пожалуйста, загрузите изображение в формате JPG или PNG!')
 			return
 		}
+		setError('')
 
 		const imageUrl = URL.createObjectURL(file)
 

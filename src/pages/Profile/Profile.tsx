@@ -6,7 +6,18 @@ import { getAuth, signOut } from 'firebase/auth'
 import { useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router'
+
+import { onAuthStateChanged, User } from 'firebase/auth'
+import { get, getDatabase, ref, set } from 'firebase/database'
+import {
+	getDownloadURL,
+	getStorage,
+	ref as storageRef,
+	uploadBytes,
+} from 'firebase/storage'
+import React, { useCallback, useEffect } from 'react'
 import s from './profile.module.scss'
+
 export const Profile = () => {
 	const user = useAuthState(auth)
 	const [isClick, setIsClick] = useState(false)
@@ -84,7 +95,7 @@ export const Profile = () => {
 
 	return (
 		<div className={`container ${s.profile}`}>
-			<h2 className='section-title'>Настройки Аккаунта</h2>
+			<h2 className='section-title tac'>Настройки Аккаунта</h2>
 
 			<form onSubmit={(e) => e.preventDefault()} className={s.profile__form}>
 				<AvatarUploader />
@@ -174,3 +185,191 @@ export const Profile = () => {
 		</div>
 	)
 }
+
+interface UserData {
+	name: string
+	surname: string
+	email: string
+	phone: string
+	profile_picture: string
+}
+
+const ProfileSettings: React.FC = () => {
+	const [userData, setUserData] = useState<UserData>({
+		name: '',
+		surname: '',
+		email: '',
+		phone: '',
+		profile_picture: '',
+	})
+	const [avatarFile, setAvatarFile] = useState<File | null>(null)
+	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
+	const [user, setUser] = useState<User | null>(null)
+
+	useEffect(() => {
+		const auth = getAuth()
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			setUser(user)
+			if (user) {
+				loadUserData(user.uid)
+			} else {
+				setLoading(false)
+			}
+		})
+
+		return () => unsubscribe()
+	}, [])
+
+	const loadUserData = useCallback(async (uid: string) => {
+		setLoading(true)
+		setError(null)
+		try {
+			const db = getDatabase()
+			const userRef = ref(db, `users/${uid}`)
+			const snapshot = await get(userRef)
+
+			if (snapshot.exists()) {
+				setUserData(snapshot.val() as UserData)
+			}
+		} catch (e: any) {
+			setError(e.message)
+		} finally {
+			setLoading(false)
+		}
+	}, [])
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target
+		setUserData({ ...userData, [name]: value })
+	}
+
+	const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) {
+			setAvatarFile(e.target.files[0])
+		}
+	}
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault()
+		setError(null)
+		setLoading(true)
+
+		try {
+			if (!user) {
+				throw new Error('User not authenticated.')
+			}
+
+			let avatarURL = userData.profile_picture // Start with existing URL
+
+			if (avatarFile) {
+				avatarURL = await uploadAvatar(user.uid, avatarFile)
+			}
+
+			const updatedUserData: UserData = {
+				...userData,
+				profile_picture: avatarURL,
+			}
+			await saveUserData(user.uid, updatedUserData)
+			console.log('Profile updated successfully!')
+			// Optionally, show a success message
+		} catch (e: any) {
+			setError(e.message)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const uploadAvatar = async (userId: string, file: File): Promise<string> => {
+		const storage = getStorage()
+		const avatarRef = storageRef(storage, `avatars/${userId}/${file.name}`)
+		await uploadBytes(avatarRef, file)
+		return await getDownloadURL(avatarRef)
+	}
+
+	const saveUserData = async (
+		userId: string,
+		userData: UserData
+	): Promise<void> => {
+		const db = getDatabase()
+		const userRef = ref(db, `users/${userId}`)
+		await set(userRef, userData)
+	}
+
+	if (loading) {
+		return <div>Loading...</div>
+	}
+
+	if (error) {
+		return <div>Error: {error}</div>
+	}
+
+	return (
+		<div>
+			<h1>Profile Settings</h1>
+			<form onSubmit={handleSubmit}>
+				<div>
+					<label htmlFor='name'>Name:</label>
+					<input
+						type='text'
+						id='name'
+						name='name'
+						value={userData.name}
+						onChange={handleInputChange}
+					/>
+				</div>
+				<div>
+					<label htmlFor='surname'>Surname:</label>
+					<input
+						type='text'
+						id='surname'
+						name='surname'
+						value={userData.surname}
+						onChange={handleInputChange}
+					/>
+				</div>
+				<div>
+					<label htmlFor='email'>Email:</label>
+					<input
+						type='email'
+						id='email'
+						name='email'
+						value={userData.email}
+						onChange={handleInputChange}
+					/>
+				</div>
+				<div>
+					<label htmlFor='phone'>Phone:</label>
+					<input
+						type='tel'
+						id='phone'
+						name='phone'
+						value={userData.phone}
+						onChange={handleInputChange}
+					/>
+				</div>
+				<div>
+					<label htmlFor='avatar'>Avatar:</label>
+					<input
+						type='file'
+						id='avatar'
+						name='avatar'
+						onChange={handleAvatarChange}
+					/>
+					{userData.profile_picture && (
+						<img
+							src={userData.profile_picture}
+							alt='Avatar'
+							style={{ width: '50px', height: '50px' }}
+						/>
+					)}
+				</div>
+				<button type='submit' disabled={loading}>
+					Save Changes
+				</button>
+			</form>
+		</div>
+	)
+}
+
+export default ProfileSettings

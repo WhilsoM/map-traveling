@@ -6,8 +6,8 @@ export const Layout = () => {
 		<>
 			<main>
 				<Outlet />
-				<BottomSheet />
 			</main>
+			<BottomSheet />
 		</>
 	)
 }
