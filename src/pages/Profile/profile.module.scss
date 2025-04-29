@@ -1,7 +1,7 @@
 @use '@assets/styles/global' as *;
 
 .profile {
-	margin-top: 50px !important;
+	margin-top: 1.5rem !important;
 }
 
 .saveData {
@@ -16,4 +16,12 @@
 	border: 1px solid $red-color;
 	background-color: $bg-color !important;
 	color: $red-color !important;
+}
+.logout:hover {
+	background-color: $red-color !important;
+	color: $white-color !important;
+}
+.logout:focus {
+	background-color: $red-color !important;
+	color: $white-color !important;
 }

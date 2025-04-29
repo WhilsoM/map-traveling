@@ -96,7 +96,10 @@ button.fill {
 	justify-content: center;
 	align-items: center;
 }
-
+button.fill:focus {
+	opacity: 0.8;
+	border: 1px solid $white-color;
+}
 button.fill:hover {
 	opacity: 0.9;
 }

@@ -9,7 +9,7 @@ export const CheckAuthUser = () => {
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
-				navigate('/home')
+				navigate('/page/home')
 			} else {
 				navigate('/auth/register')
 			}

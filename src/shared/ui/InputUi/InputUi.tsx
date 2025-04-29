@@ -1,5 +1,5 @@
 interface InputUiProps {
-	type: 'email' | 'password' | 'text' | 'tel' | 'number'
+	type: 'email' | 'password' | 'text' | 'tel' | 'number' | 'file'
 	id?: string
 	variants: 'outlined'
 	placeholder?: string

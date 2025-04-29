@@ -1,4 +1,5 @@
 import { auth } from '@api/firebase'
+import { AvatarUploader } from '@components/AvatarUploader/AvatarUploader'
 import { emailRegex, nameRegex, phoneRegex } from '@shared/config/regex'
 import { ButtonUi, InputUi } from '@ui/index'
 import { getAuth, signOut } from 'firebase/auth'
@@ -83,12 +84,10 @@ export const Profile = () => {
 
 	return (
 		<div className={`container ${s.profile}`}>
-			<form className={s.profile__form}>
-				<div>
-					<p>Загрузить Аватар</p>
-					<input type='file' ref={fileRef} accept='image/png, image/jpeg' />
-					{isClick && <img src={fileRef.current?.value} alt='avatar' />}
-				</div>
+			<h2 className='section-title'>Настройки Аккаунта</h2>
+
+			<form onSubmit={(e) => e.preventDefault()} className={s.profile__form}>
+				<AvatarUploader />
 
 				<label className='label' htmlFor='name'>
 					Имя
