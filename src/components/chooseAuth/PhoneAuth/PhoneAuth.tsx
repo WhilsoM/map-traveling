@@ -147,10 +147,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 						{values.map((value, i) => (
 							<InputUi
 								key={i}
-								Ref={(el) => {
-									console.log(inputsRef.current[i])
-									console.log(el)
-
+								ref={(el) => {
 									return (inputsRef.current[i] = el)
 								}}
 								type='text'

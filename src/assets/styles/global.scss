@@ -20,7 +20,7 @@ $font-family-Manrope: 'Manrope', sans-serif;
 
 // FONT SIZES
 $font-size-text: clamp(1rem, 1vw + 0.5rem, 1.2rem);
-$font-size-title: clamp(1.7rem, 3.5vw, 2.5rem);
+$font-size-title: clamp(1.6rem, 3vw, 2.4rem);
 
 // MIXINS
 @mixin flexCenter() {
@@ -73,6 +73,7 @@ html {
 	margin-bottom: 15px;
 	color: $text-color;
 }
+
 .label {
 	display: block;
 	margin-bottom: 0.5rem;
@@ -126,8 +127,26 @@ button.fill.active {
 input.outlined:focus {
 	border: 1px solid $hover-blue-color;
 }
+input.outlined::placeholder {
+	color: $accent-color;
+}
 
 .error {
 	color: rgb(176, 2, 2);
 	margin-bottom: 5px;
+}
+
+.overlay {
+	height: 100vh;
+	width: 100vw;
+	background-color: rgba(0, 0, 0, 0.4);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 6;
+	@include flexCenter();
+}
+.modal__content {
+	background-color: $white-color;
+	padding: 1rem;
 }
