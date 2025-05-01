@@ -11,21 +11,24 @@ export const Posts = () => {
 	return (
 		<div className={`container ${s.posts}`}>
 			<h2 className={`section-title tac`}>Ваши публикации</h2>
+			<div className={s.btnCreatePost}>
+				<ButtonUi
+					onClick={() => setIsOpenModal(true)}
+					type='button'
+					variants='fill'
+					className={s.createNewPostBtn}
+				>
+					Создать пост
+				</ButtonUi>
+			</div>
 
-			{posts.length === 0 ? (
-				<p className={s.emptyPosts}>Постов нету :)</p>
-			) : (
-				posts.map((el) => <Post key={el.key} />)
-			)}
-
-			<ButtonUi
-				onClick={() => setIsOpenModal(true)}
-				type='button'
-				variants='fill'
-			>
-				Создать пост
-			</ButtonUi>
-
+			<section className={s.posts__wrapper}>
+				{posts.length === 0 ? (
+					<p className={s.emptyPosts}>Постов нету :)</p>
+				) : (
+					posts.map((el) => <Post key={el.key} />)
+				)}
+			</section>
 			{isOpenModal && (
 				<CreatePostModal
 					isOpenModal={isOpenModal}
