@@ -1,37 +1,37 @@
-import { Home } from '@assets/icons/Ui/Home'
-import { Posts } from '@assets/icons/Ui/Posts'
-import { Settings } from '@assets/icons/Ui/Settings'
+import { HomeIcon } from '@assets/icons/Ui/HomeIcon'
+import { PostsIcon } from '@assets/icons/Ui/PostsIcon'
+import { SettingsIcon } from '@assets/icons/Ui/SettingsIcon'
 import { NavLink } from 'react-router'
 import s from './bottom-sheet.module.scss'
 
 export const BottomSheet = () => {
 	return (
 		<div className={`${s.bottomSheet}`}>
-			<div className={s.bottomSheet__wrapper}>
+			<nav className={s.bottomSheetWrapper}>
 				<ul>
 					<li>
-						<NavLink className={s.bottomSheet__link} to={'/page/home'}>
-							<Home />
+						<NavLink className={s.bottomSheetLink} to={'/page/home'}>
+							<HomeIcon />
 							<span>Главная</span>
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className={s.bottomSheet__link} to={'/page/posts'}>
-							<Posts />
+						<NavLink className={s.bottomSheetLink} to={'/page/posts'}>
+							<PostsIcon />
 							<span>Публикации</span>
 						</NavLink>
 					</li>
 					<li>
 						<NavLink
-							className={s.bottomSheet__link}
+							className={s.bottomSheetLink}
 							to={'/page/profile-settings'}
 						>
-							<Settings />
+							<SettingsIcon />
 							<span>Аккаунт</span>
 						</NavLink>
 					</li>
 				</ul>
-			</div>
+			</nav>
 		</div>
 	)
 }

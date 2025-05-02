@@ -42,7 +42,7 @@ $font-size-title: clamp(1.6rem, 3vw, 2.4rem);
 	transition: $el $time $type;
 }
 
-/* Тёмная тема */
+// dark mode
 [data-theme='dark'] {
 	$bg-color: #121212;
 	$text-color: #f1f1f1;
@@ -111,12 +111,6 @@ button.fill:hover {
 button.fill.active {
 	opacity: 0.9;
 }
-
-// button.outlined {
-// }
-
-// button.outlined.active {
-// }
 
 .outlined {
 	padding: 5px 5px;

@@ -8,7 +8,7 @@ import s from '../sign.module.scss'
 export const SignUp = () => {
 	const [activeTab, setActiveTab] = useState('email')
 
-	let condition = activeTab === 'email' ? formEmailSignUp : formPhoneSignUp
+	const condition = activeTab === 'email' ? formEmailSignUp : formPhoneSignUp
 
 	return (
 		<div className={`${s['sign-up']} container container-wrapper`}>

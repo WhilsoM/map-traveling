@@ -1,5 +1,5 @@
 import { CheckAuthUser } from '@components/CheckAuthUser/CheckAuthUser'
-import { ProtectedRoute } from '@components/ProtectedRoute/ProtectedRoute'
+
 import { Home } from '@pages/Home/Home'
 import { PolicySecurity } from '@pages/PolicySecurity/'
 import { Posts } from '@pages/Posts/Posts'
@@ -21,30 +21,9 @@ export const App = () => {
 			</Route>
 
 			<Route path='/page' element={<Layout />}>
-				<Route
-					path='home'
-					element={
-						<ProtectedRoute>
-							<Home />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path='profile-settings'
-					element={
-						<ProtectedRoute>
-							<Profile />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path='posts'
-					element={
-						<ProtectedRoute>
-							<Posts />
-						</ProtectedRoute>
-					}
-				/>
+				<Route path='home' element={<Home />} />
+				<Route path='profile-settings' element={<Profile />} />
+				<Route path='posts' element={<Posts />} />
 			</Route>
 		</Routes>
 	)
