@@ -12,8 +12,10 @@ export const CreatePostModal = ({
 	const [country, setCountry] = useState('')
 	const [city, setCity] = useState('')
 	const [error, setError] = useState({ error: false, message: '' })
+	const imgRef = useRef<HTMLInputElement>(null)
 	const firstInputRef = useRef<HTMLInputElement>(null)
 	const secondInputRef = useRef<HTMLInputElement>(null)
+	const infoRef = useRef<HTMLTextAreaElement>(null)
 
 	const createPost = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -24,21 +26,24 @@ export const CreatePostModal = ({
 		const payload = {
 			country,
 			city,
-			dateFrom: secondInputRef.current?.value,
-			dateTo: firstInputRef.current?.value,
+			dateFrom: firstInputRef.current?.value,
+			dateTo: secondInputRef.current?.value,
+			info: infoRef.current?.value,
 		}
 
 		try {
-			const res = await fetch('/api/create-post', {
+			const res = await fetch('/api/posts', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(payload),
 			})
+
 			if (!res.ok || res.status === 400) {
 				return setError({ error: true, message: 'Заполните все поля' })
 			}
+
 			const data = await res.json()
 			console.log(data)
 		} catch (error: any) {
@@ -83,7 +88,7 @@ export const CreatePostModal = ({
 		<ModalUi isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
 			<form onSubmit={(e) => createPost(e)}>
 				<div>
-					<InputUi type='file' variants='file' />
+					<InputUi type='file' variants='file' ref={imgRef} />
 				</div>
 
 				<h2 className='section-title '>Добавления путешествия</h2>
@@ -145,6 +150,8 @@ export const CreatePostModal = ({
 						</div>
 					</div>
 				</div>
+
+				<textarea ref={infoRef} className={s.textInfo}></textarea>
 
 				{error.error && <p className='error'>{error.message}</p>}
 				<ButtonUi
