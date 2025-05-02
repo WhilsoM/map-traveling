@@ -8,7 +8,7 @@ import s from '../sign.module.scss'
 export const SignIn = () => {
 	const [activeTab, setActiveTab] = useState('email')
 
-	let condition = activeTab === 'email' ? formEmailSignIn : formPhoneSignIn
+	const condition = activeTab === 'email' ? formEmailSignIn : formPhoneSignIn
 
 	return (
 		<div className='container container-wrapper'>

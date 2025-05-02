@@ -21,7 +21,6 @@ export const SignUp = () => {
 				<PhoneAuth method='register' id={formPhoneSignUp} />
 			)}
 
-			{/* SLICE TO COMPONENT THIS */}
 			<div className={`${s['sign-up-methods']}`}>
 				<p className={s['sign-up-text']}>Методы регистрации</p>
 

@@ -1,5 +1,5 @@
 import { ButtonUi } from '@ui/index'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CreatePostModal } from './CreatePostModal/CreatePostModal'
 import { Post } from './Post/Post'
 import s from './posts.module.scss'
@@ -7,6 +7,21 @@ import s from './posts.module.scss'
 export const Posts = () => {
 	const [posts, setPosts] = useState([{ key: 'd' }, { key: '' }])
 	const [isOpenModal, setIsOpenModal] = useState(false)
+
+	useEffect(() => {
+		fetchPosts()
+	}, [])
+
+	const fetchPosts = async () => {
+		try {
+			const response = await fetch('/api/express_backend')
+			const data = await response.json()
+
+			console.log(data)
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	return (
 		<div className={`container ${s.posts}`}>
