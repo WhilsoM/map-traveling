@@ -1,14 +1,15 @@
 import { auth } from '@api/firebase'
 import { InputUi } from '@ui/index'
+import { type FirebaseError } from 'firebase/app'
 import {
 	createUserWithEmailAndPassword,
 	getAuth,
 	signInWithEmailAndPassword,
 } from 'firebase/auth'
-import { useState } from 'react'
+import { type FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router'
 import s from '../choose-auth.module.scss'
-import { AuthProps } from '../types'
+import { type AuthProps } from '../types'
 
 export const EmailAuth = ({ id, method }: AuthProps) => {
 	const [email, setEmail] = useState('')
@@ -32,11 +33,14 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 			if (token) {
 				navigate('/home')
 			}
-		} catch (error: any) {
-			if (error.code === 'auth/email-already-in-use') {
-				alert('Пользователь с такой почтой уже существует.')
+		} catch (error) {
+			if (
+				error instanceof FirebaseError &&
+				error.code === 'auth/email-already-in-use'
+			) {
+				console.log('Пользователь с такой почтой уже существует.')
 			} else {
-				alert('Ошибка регистрации: ' + error.message)
+				console.log('Ошибка регистрации: ' + error)
 			}
 			console.error('Registration failed', error)
 		}
@@ -46,7 +50,6 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 		const auth = getAuth()
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
-				// Sign-in successful
 				const user = userCredential.user
 				console.log(user)
 
@@ -56,7 +59,6 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 				const errorCode = error.code
 				const errorMessage = error.message
 				console.error('Sign-in error:', errorCode, errorMessage)
-				// Handle errors here (e.g., display an error message to the user)
 			})
 	}
 
@@ -77,9 +79,8 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 		return
 	}
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault()
-		console.log('on submit')
 
 		if (method === 'register') {
 			console.log('register')
@@ -94,26 +95,22 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 	return (
 		<>
 			<form className={s.form} id={id} onSubmit={(e) => handleSubmit(e)}>
-				<label className='label' htmlFor='email'>
+				<label className='label'>
 					Почта
+					<InputUi
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						className='input'
+						variants='outlined'
+						type='email'
+					/>
 				</label>
-				<InputUi
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-					className='input'
-					id='email'
-					variants='outlined'
-					type='email'
-				/>
 
-				<label className={'label'} htmlFor='password'>
-					Пароль
-				</label>
+				<label className={'label'}>Пароль</label>
 				<InputUi
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 					className={'input'}
-					id='password'
 					variants='outlined'
 					type='password'
 				/>

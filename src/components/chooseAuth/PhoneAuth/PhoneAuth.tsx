@@ -1,8 +1,18 @@
 import { auth } from '@api/firebase'
 import { ButtonUi, InputUi } from '@shared/ui'
-import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
+import {
+	ConfirmationResult,
+	RecaptchaVerifier,
+	signInWithPhoneNumber,
+} from 'firebase/auth'
 
-import { useEffect, useRef, useState } from 'react'
+import {
+	ClipboardEvent,
+	KeyboardEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 import s from '../choose-auth.module.scss'
 import { AuthProps } from '../types'
 
@@ -12,7 +22,8 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 	const [phone, setPhone] = useState('')
 	const [code, setCode] = useState('')
 	const [error, setError] = useState({ message: '' })
-	const [confirmationResult, setConfirmationResult] = useState<any>(null)
+	const [confirmationResult, setConfirmationResult] =
+		useState<ConfirmationResult | null>(null)
 	const [values, setValues] = useState<string[]>(Array(CODE_LENGTH).fill(''))
 	const inputsRef = useRef<(HTMLInputElement | null)[]>([])
 
@@ -32,16 +43,17 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 			)
 		}
 	}, [])
-	useEffect(() => {
+
+	const saveFullCode = () => {
 		let fullCode = ''
+
 		for (let i = 0; i < inputsRef.current.length; i++) {
 			fullCode += inputsRef.current[i]?.value
 		}
-		console.log(fullCode)
-
 		setCode(fullCode)
-		console.log(code)
-	}, [inputsRef])
+		return fullCode
+	}
+
 	const sendCode = async () => {
 		const verifier = (window as any).recaptchaVerifier
 
@@ -60,7 +72,10 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 	}
 
 	const verifyCode = async () => {
+		const code = saveFullCode()
 		try {
+			if (!confirmationResult) return
+
 			const res = await confirmationResult.confirm(code)
 
 			console.log('Пользователь вошёл:', res.user)
@@ -84,16 +99,13 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 		}
 	}
 
-	const handleKeyDown = (
-		e: React.KeyboardEvent<HTMLInputElement>,
-		index: number
-	) => {
+	const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
 		if (e.key === 'Backspace' && !values[index] && index > 0) {
 			inputsRef.current[index - 1]?.focus()
 		}
 	}
 
-	const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+	const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
 		const paste = e.clipboardData.getData('text').slice(0, CODE_LENGTH)
 		if (!/^\d+$/.test(paste)) return
 
@@ -119,18 +131,17 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 					e.preventDefault()
 				}}
 			>
-				<label className={'label'} htmlFor='phoneNumber'>
+				<label className={'label'}>
 					Номер телефона
+					<InputUi
+						className={'input'}
+						type='tel'
+						inputMode='numeric'
+						variants='outlined'
+						value={phone}
+						onChange={(e) => setPhone(e.target.value)}
+					/>
 				</label>
-				<InputUi
-					className={'input'}
-					type='tel'
-					inputMode='numeric'
-					id='phoneNumber'
-					variants='outlined'
-					value={phone}
-					onChange={(e) => setPhone(e.target.value)}
-				/>
 
 				<ButtonUi
 					disabled={phone.length < 5}
@@ -157,7 +168,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 								className={s['input-code']}
 								value={value}
 								onChange={(e) => handleChange(e.target.value, i)}
-								onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
+								onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
 									handleKeyDown(e, i)
 								}
 								onPaste={handlePaste}

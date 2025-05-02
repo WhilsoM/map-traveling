@@ -11,7 +11,7 @@
 	align-items: center;
 	border-top: 1px solid $black-color;
 
-	&__wrapper {
+	&Wrapper {
 		padding: 10px;
 		ul {
 			display: flex;
@@ -36,7 +36,7 @@
 		}
 	}
 }
-.bottomSheet__link {
+.bottomSheetLink {
 	@include flexColumn;
 	@include flexCenter;
 }
