@@ -1,7 +1,8 @@
 import { ButtonUi, InputUi } from '@ui/index'
 import { ModalUi, ModalUiProps } from '@ui/ModalUi/ModalUi'
-import { useRef, useState } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import s from '../posts.module.scss'
+
 type CreatePostModalProps = Omit<ModalUiProps, 'children'>
 
 export const CreatePostModal = ({
@@ -14,21 +15,45 @@ export const CreatePostModal = ({
 	const firstInputRef = useRef<HTMLInputElement>(null)
 	const secondInputRef = useRef<HTMLInputElement>(null)
 
-	const createPost = (e: React.FormEvent<HTMLFormElement>) => {
+	const createPost = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		checkValidation()
 
 		if (error.error) return
 
-		console.log('все гуд')
+		const payload = {
+			country,
+			city,
+			dateFrom: secondInputRef.current?.value,
+			dateTo: firstInputRef.current?.value,
+		}
+
+		try {
+			const res = await fetch('/api/create-post', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(payload),
+			})
+			if (!res.ok || res.status === 400) {
+				return setError({ error: true, message: 'Заполните все поля' })
+			}
+			const data = await res.json()
+			console.log(data)
+		} catch (error: any) {
+			console.log('error', error)
+
+			setError({ error: true, message: error.message })
+		}
 	}
 
-	const handleChange = () => {
-		const firstInpValue = firstInputRef.current?.value
+	const handleChange = (input: ChangeEvent<HTMLInputElement>) => {
+		const inpValue = input.target.value
 
-		if (!firstInpValue) return
+		if (!inpValue) return
 
-		if (!/^\d+$/.test(firstInpValue)) {
+		if (!/^\d+$/.test(inpValue)) {
 			setError({
 				error: true,
 				message: 'Должны быть только цифры или неправильно указана дата ',
@@ -51,7 +76,7 @@ export const CreatePostModal = ({
 			return setError({ error: true, message: 'Заполните поле "город"' })
 		}
 
-		return
+		return setError({ error: false, message: '' })
 	}
 
 	return (
@@ -63,27 +88,29 @@ export const CreatePostModal = ({
 
 				<h2 className='section-title '>Добавления путешествия</h2>
 
-				<label htmlFor='country' className='label'>
+				<label className='label'>
 					Страна
+					<InputUi
+						variants='outlined'
+						type='text'
+						placeholder='Введите страну'
+						className={`input ${s.country_input}`}
+						value={country}
+						onChange={(e) => setCountry(e.target.value)}
+					/>
 				</label>
-				<InputUi
-					id='country'
-					variants='outlined'
-					type='text'
-					placeholder='Введите страну'
-					className={`input ${s.country_input}`}
-				/>
 
-				<label htmlFor='city' className='label'>
+				<label className='label'>
 					Город
+					<InputUi
+						variants='outlined'
+						type='text'
+						placeholder='Введите город'
+						className={`input ${s.city_input}`}
+						value={city}
+						onChange={(e) => setCity(e.target.value)}
+					/>
 				</label>
-				<InputUi
-					id='city'
-					variants='outlined'
-					type='text'
-					placeholder='Введите город'
-					className={`input ${s.city_input}`}
-				/>
 
 				<div className={s.date_travel}>
 					<p className={s.date_travel_text}>Дата поездки</p>
@@ -99,7 +126,7 @@ export const CreatePostModal = ({
 								max={31}
 								maxLength={2}
 								ref={firstInputRef}
-								onChange={handleChange}
+								onChange={(e) => handleChange(e)}
 							/>
 						</div>
 
@@ -113,7 +140,7 @@ export const CreatePostModal = ({
 								max={31}
 								maxLength={2}
 								ref={secondInputRef}
-								onChange={handleChange}
+								onChange={(e) => handleChange(e)}
 							/>
 						</div>
 					</div>

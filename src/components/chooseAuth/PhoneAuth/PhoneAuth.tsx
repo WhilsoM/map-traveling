@@ -25,13 +25,13 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 	const [confirmationResult, setConfirmationResult] =
 		useState<ConfirmationResult | null>(null)
 	const [values, setValues] = useState<string[]>(Array(CODE_LENGTH).fill(''))
-	const inputsRef = useRef<(HTMLInputElement | null)[]>([])
+	const inputsRef = useRef<Array<HTMLInputElement | null>>([])
 
 	const recaptchaContainer = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		if (!(window as any).recaptchaVerifier && recaptchaContainer.current) {
-			window.recaptchaVerifier = new RecaptchaVerifier(
+			;(window as any).recaptchaVerifier = new RecaptchaVerifier(
 				auth,
 				recaptchaContainer.current,
 				{

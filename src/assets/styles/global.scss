@@ -144,3 +144,9 @@ input.outlined::placeholder {
 	background-color: $white-color;
 	padding: 1rem;
 }
+
+.loader {
+	font-size: 1.3rem;
+	padding: 10px 15px;
+	@include flexCenter();
+}

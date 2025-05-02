@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 	const [user, loading] = useAuthState(auth)
 
-	if (loading) return <div>Загрузка...</div>
+	if (loading) return <div className='loader'>Загрузка...</div>
 
 	return user ? children : <Navigate to={'/auth/register'} />
 }
