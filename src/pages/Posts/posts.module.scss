@@ -50,21 +50,21 @@
 }
 
 .date_travel {
-	margin-bottom: 1rem;
+	margin-bottom: 0.5rem;
 	&_wrapper {
 		display: flex;
 		justify-content: space-between;
 		gap: 0.7rem;
+	}
+	&_block {
+		@include flexBetween();
+		gap: 1rem;
+		padding: 1rem 0.5rem;
+		border-radius: $border-radius-blocks;
+		margin-bottom: 0.5rem;
 
-		.date_travel_block {
-			@include flexBetween();
-			gap: 1rem;
-			padding: 1rem 0.5rem;
-			border-radius: $border-radius-blocks;
-
-			background-color: #e6e6e6;
-			color: #b6b6b6;
-		}
+		background-color: #e6e6e6;
+		color: #b6b6b6;
 	}
 }
 .date_travel_text {
@@ -76,4 +76,10 @@
 }
 .createPostBtn {
 	width: 100%;
+}
+.textInfo {
+	border: 1px solid $black-color;
+	border-radius: $border-radius-elements;
+	width: 100%;
+	height: 5rem;
 }
