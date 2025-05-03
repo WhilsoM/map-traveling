@@ -1,5 +1,6 @@
+import { useWebSocket } from '@shared/hooks/useWebSocket'
 import { ButtonUi } from '@ui/index'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { CreatePostModal } from './CreatePostModal/CreatePostModal'
 import { Post } from './Post/Post'
 import s from './posts.module.scss'
@@ -15,6 +16,12 @@ export type PostsProps = {
 	author: string
 }
 
+export enum SocketEventType {
+	NewPost = 'new_post',
+	DeletePost = 'delete_post',
+	UpdatePost = 'update_post',
+}
+
 export const Posts = () => {
 	const [posts, setPosts] = useState<PostsProps[]>([])
 	const [isOpenModal, setIsOpenModal] = useState(false)
@@ -22,6 +29,30 @@ export const Posts = () => {
 
 	useEffect(() => {
 		getAllPosts()
+	}, [])
+
+	useEffect(() => {
+		const socket = new WebSocket('ws://localhost:3000')
+
+		socket.onopen = () => {
+			console.log('WebSocket connected')
+		}
+
+		socket.onmessage = (event) => {
+			console.log('Received:', event.data)
+		}
+
+		socket.onerror = (error) => {
+			console.error('WebSocket error:', error)
+		}
+
+		socket.onclose = () => {
+			console.log('WebSocket closed')
+		}
+
+		return () => {
+			socket.close()
+		}
 	}, [])
 
 	const getAllPosts = async () => {
@@ -34,6 +65,19 @@ export const Posts = () => {
 			console.log(error)
 		}
 	}
+
+	const handleMessage = useCallback((message: { type: string; data: any }) => {
+		console.log('handle message websocket', message)
+
+		if (message.type === SocketEventType.NewPost) {
+			console.log('выполнилось handle message with websocket event')
+			console.log(posts)
+
+			setPosts((prev) => [...prev, message.data])
+		}
+	}, [])
+
+	useWebSocket(handleMessage)
 
 	return (
 		<div className={`container ${s.posts}`}>
@@ -61,6 +105,7 @@ export const Posts = () => {
 							dateFrom={el.dateFrom}
 							dateTo={el.dateTo}
 							info={el.info}
+							img={el.img}
 							author={el.author}
 						/>
 					))
