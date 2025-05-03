@@ -1,6 +1,8 @@
+import { auth } from '@api/firebase'
 import { ButtonUi, InputUi } from '@ui/index'
 import { ModalUi, ModalUiProps } from '@ui/ModalUi/ModalUi'
 import { ChangeEvent, useRef, useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import s from '../posts.module.scss'
 
 type CreatePostModalProps = Omit<ModalUiProps, 'children'>
@@ -12,16 +14,29 @@ export const CreatePostModal = ({
 	const [country, setCountry] = useState('')
 	const [city, setCity] = useState('')
 	const [error, setError] = useState({ error: false, message: '' })
+	const user = useAuthState(auth)
 	const imgRef = useRef<HTMLInputElement>(null)
 	const firstInputRef = useRef<HTMLInputElement>(null)
 	const secondInputRef = useRef<HTMLInputElement>(null)
 	const infoRef = useRef<HTMLTextAreaElement>(null)
+	let emailOrPhone
+	const haveEmailUser = user[0]?.email
+	const havePhoneUser = user[0]?.phoneNumber
+
+	if (haveEmailUser !== null || haveEmailUser !== undefined) {
+		emailOrPhone = haveEmailUser
+	} else if (havePhoneUser !== null || havePhoneUser !== undefined) {
+		emailOrPhone = havePhoneUser
+	} else {
+		emailOrPhone = 'anonymus'
+	}
 
 	const createPost = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
 		checkValidation()
 
-		if (error.error) return
+		if (error.error) {
+			return console.log('error', error.error)
+		}
 
 		const payload = {
 			country,
@@ -29,6 +44,8 @@ export const CreatePostModal = ({
 			dateFrom: firstInputRef.current?.value,
 			dateTo: secondInputRef.current?.value,
 			info: infoRef.current?.value,
+			author: emailOrPhone,
+			img: imgRef.current?.value,
 		}
 
 		try {
@@ -43,9 +60,6 @@ export const CreatePostModal = ({
 			if (!res.ok || res.status === 400) {
 				return setError({ error: true, message: 'Заполните все поля' })
 			}
-
-			const data = await res.json()
-			console.log(data)
 		} catch (error: any) {
 			console.log('error', error)
 

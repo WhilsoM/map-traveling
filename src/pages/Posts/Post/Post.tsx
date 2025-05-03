@@ -1,7 +1,7 @@
 import { PostsProps } from '../Posts'
 import s from '../posts.module.scss'
 
-type PostProps = PostsProps
+type PostProps = Omit<PostsProps, 'id' | 'phoneNumber'>
 
 export const Post = ({
 	img,
@@ -10,6 +10,7 @@ export const Post = ({
 	dateFrom,
 	dateTo,
 	info,
+	author,
 }: PostProps) => {
 	return (
 		<article className={s.post}>
@@ -25,6 +26,10 @@ export const Post = ({
 			</div>
 
 			<div className={s.post__wrapper_info}>
+				<div className={s.infoUser}>
+					<p>Опубликовал пост: {author} </p>
+				</div>
+
 				<div className={s.where}>
 					<p>
 						<span>

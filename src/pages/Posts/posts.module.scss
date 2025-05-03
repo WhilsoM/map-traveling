@@ -1,7 +1,7 @@
 @use '@assets/styles/global' as *;
 // POSTS
 .posts {
-	margin-top: 1.5rem !important;
+	margin-top: 1rem !important;
 	height: 89vh;
 	overflow-y: scroll;
 	position: relative;
@@ -22,6 +22,10 @@
 // POST
 .post {
 	margin-bottom: 1.725rem;
+	border: 1px solid $gray-color;
+	padding: 0.5rem 1rem;
+	box-shadow: 2px 3px 14px $gray-color;
+
 	&__wrapper_img {
 		margin-bottom: 1rem;
 	}
@@ -82,4 +86,6 @@
 	border-radius: $border-radius-elements;
 	width: 100%;
 	height: 5rem;
+	padding: 0.5rem 1rem;
+	margin-bottom: 0.5rem;
 }

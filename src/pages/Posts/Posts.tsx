@@ -11,11 +11,14 @@ export type PostsProps = {
 	dateFrom: string
 	dateTo: string
 	info: string
+	id: number
+	author: string
 }
 
 export const Posts = () => {
 	const [posts, setPosts] = useState<PostsProps[]>([])
 	const [isOpenModal, setIsOpenModal] = useState(false)
+	console.log(posts)
 
 	useEffect(() => {
 		getAllPosts()
@@ -26,7 +29,6 @@ export const Posts = () => {
 			const response = await fetch('/api/posts')
 			const data = await response.json()
 
-			console.log(data)
 			setPosts(data)
 		} catch (error) {
 			console.log(error)
@@ -53,12 +55,13 @@ export const Posts = () => {
 				) : (
 					posts.map((el) => (
 						<Post
-							key={el.city + el.country}
+							key={el.id}
 							city={el.city}
 							country={el.country}
 							dateFrom={el.dateFrom}
 							dateTo={el.dateTo}
 							info={el.info}
+							author={el.author}
 						/>
 					))
 				)}

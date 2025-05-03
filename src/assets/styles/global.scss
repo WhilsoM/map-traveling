@@ -3,7 +3,7 @@
 // COLORS
 $white-color: #fff;
 $black-color: #232323;
-$gray-color: #e9e7eb;
+$gray-color: #b8b8b8;
 $text-color: #000;
 $accent-color: #929292;
 $bg-color: #fff;
@@ -149,4 +149,5 @@ input.outlined::placeholder {
 	font-size: 1.3rem;
 	padding: 10px 15px;
 	@include flexCenter();
+	flex-direction: column;
 }
