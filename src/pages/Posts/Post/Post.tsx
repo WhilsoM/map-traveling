@@ -27,25 +27,26 @@ export const Post = ({
 
 			<div className={s.post__wrapper_info}>
 				<div className={s.infoUser}>
-					<p>Опубликовал пост: {author} </p>
+					<p>{author}</p>
 				</div>
 
 				<div className={s.where}>
 					<p>
 						<span>
-							Страна: <span>{country}</span>
+							Страна: <span>{country ?? 'Страна не указана'}</span>
 						</span>
 						<span>
-							Город: <span>{city}</span>
+							Город: <span>{city ?? 'Город не указан'}</span>
 						</span>
 					</p>
 					<p>
-						Отдыхал с <span>{dateFrom}</span> по <span>{dateTo}</span>{' '}
+						Отдыхал с <span>{dateFrom ?? 'с какого периода не указано'}</span>{' '}
+						по <span>{dateTo ?? 'до какого периода не указано'}</span>{' '}
 					</p>
 				</div>
 
 				<div className={s.travel_about}>
-					<p>{info}</p>
+					<p>{info ?? 'Заметка не указана'}</p>
 				</div>
 			</div>
 		</article>
