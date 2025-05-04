@@ -4,6 +4,7 @@ import { ButtonUi, InputUi } from '@ui/index'
 import { ModalUi, ModalUiProps } from '@ui/ModalUi/ModalUi'
 import { type ChangeEvent, type FormEvent, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useTranslation } from 'react-i18next'
 import s from '../posts.module.scss'
 
 type CreatePostModalProps = Omit<ModalUiProps, 'children'>
@@ -21,18 +22,9 @@ export const CreatePostModal = ({
 	const firstInputRef = useRef<HTMLInputElement>(null)
 	const secondInputRef = useRef<HTMLInputElement>(null)
 	const infoRef = useRef<HTMLTextAreaElement>(null)
+	const { t } = useTranslation()
 
-	let emailOrPhone
-	const haveEmailUser = user[0]?.email
-	const havePhoneUser = user[0]?.phoneNumber
-
-	if (haveEmailUser !== null || haveEmailUser !== undefined) {
-		emailOrPhone = haveEmailUser
-	} else if (havePhoneUser !== null || havePhoneUser !== undefined) {
-		emailOrPhone = havePhoneUser
-	} else {
-		emailOrPhone = 'anonymus'
-	}
+	const emailUser = user[0]?.email
 
 	const previewFile = () => {
 		const file = fileRef.current?.files?.[0]
@@ -75,7 +67,8 @@ export const CreatePostModal = ({
 			dateFrom: firstInputRef.current?.value,
 			dateTo: secondInputRef.current?.value,
 			info: infoRef.current?.value,
-			author: emailOrPhone,
+			author:
+				emailUser !== null || emailUser !== undefined ? emailUser : 'anonymus',
 			img: imgRef.current?.src,
 		}
 
@@ -89,7 +82,7 @@ export const CreatePostModal = ({
 			})
 
 			if (!res.ok || res.status === 400) {
-				return setError({ error: true, message: 'Заполните все поля' })
+				return setError({ error: true, message: t('posts.fields') })
 			}
 			setIsOpenModal(false)
 		} catch (error: any) {
@@ -99,7 +92,8 @@ export const CreatePostModal = ({
 		}
 
 		const { toast } = await import('react-toast')
-		toast('Пост успешно создан', {
+
+		toast(t('posts.successpostcreate'), {
 			backgroundColor: '#323131',
 			color: '#ffffff',
 		})
@@ -113,7 +107,7 @@ export const CreatePostModal = ({
 		if (!/^\d+$/.test(inpValue)) {
 			setError({
 				error: true,
-				message: 'Должны быть только цифры или неправильно указана дата ',
+				message: t('posts.errordata'),
 			})
 		} else {
 			setError({
@@ -127,10 +121,16 @@ export const CreatePostModal = ({
 		const MIN_LENGTH = 3
 
 		if (country.length < MIN_LENGTH || !country) {
-			return setError({ error: true, message: 'Заполните поле "страна"' })
+			return setError({
+				error: true,
+				message: t('posts.fieldneedwrite', { field: t('posts.country') }),
+			})
 		}
 		if (city.length < MIN_LENGTH || !city) {
-			return setError({ error: true, message: 'Заполните поле "город"' })
+			return setError({
+				error: true,
+				message: t('posts.fieldneedwrite', { field: t('posts.city') }),
+			})
 		}
 
 		return setError({ error: false, message: '' })
@@ -150,19 +150,19 @@ export const CreatePostModal = ({
 							name='file'
 						/>
 						<span className={s.textUploadImg}>
-							<ImgIcon /> <span>Загрузить изображение</span>
+							<ImgIcon /> <span>{t('posts.uploadimg')}</span>
 						</span>
 					</label>
 				</div>
 
-				<h2 className='section-title'>Добавления путешествия</h2>
+				<h2 className='section-title'> {t('posts.title')} </h2>
 
 				<label className='label'>
-					Страна
+					{t('posts.country')}
 					<InputUi
 						variants='outlined'
 						type='text'
-						placeholder='Введите страну'
+						placeholder={t('posts.country')}
 						className={`input ${s.country_input}`}
 						value={country}
 						onChange={(e) => setCountry(e.target.value)}
@@ -170,11 +170,12 @@ export const CreatePostModal = ({
 				</label>
 
 				<label className='label'>
-					Город
+					{t('posts.city')}
+
 					<InputUi
 						variants='outlined'
 						type='text'
-						placeholder='Введите город'
+						placeholder={t('posts.city')}
 						className={`input ${s.city_input}`}
 						value={city}
 						onChange={(e) => setCity(e.target.value)}
@@ -182,11 +183,11 @@ export const CreatePostModal = ({
 				</label>
 
 				<div className={s.date_travel}>
-					<p className={s.date_travel_text}>Дата поездки</p>
+					<p className={s.date_travel_text}> {t('posts.datetravel')} </p>
 
 					<div className={s.date_travel_wrapper}>
 						<div className={s.date_travel_block}>
-							<span>с</span>
+							<span> {t('posts.vacationfrom')} </span>
 							<InputUi
 								type='text'
 								variants='form'
@@ -200,7 +201,7 @@ export const CreatePostModal = ({
 						</div>
 
 						<div className={s.date_travel_block}>
-							<span>по</span>
+							<span>{t('posts.vacationTo')}</span>
 							<InputUi
 								type='text'
 								variants='form'
@@ -223,7 +224,7 @@ export const CreatePostModal = ({
 					variants='fill'
 					type='submit'
 				>
-					Создать пост
+					{t('posts.create')}
 				</ButtonUi>
 			</form>
 		</ModalUi>

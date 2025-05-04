@@ -5,7 +5,6 @@ export function useWebSocket(onMessage: (data: any) => void) {
 
 	useEffect(() => {
 		ws.current = new WebSocket('ws://localhost:3000')
-		console.log('useWebsocket', ws.current)
 
 		ws.current.onmessage = (event) => {
 			const message = JSON.parse(event.data)
@@ -16,7 +15,6 @@ export function useWebSocket(onMessage: (data: any) => void) {
 			ws.current?.close()
 		}
 	}, [onMessage])
-	console.log('usewebsocket ws current', ws.current)
 
 	return ws.current
 }

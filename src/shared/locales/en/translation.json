@@ -1,0 +1,70 @@
+{
+	"name": "Name",
+	"surname": "Surname",
+	"email": "Email",
+	"phone": "Phone number",
+	"password": "Password",
+	"loading": "Loading...",
+	"bottomsheet": {
+		"home": "Home",
+		"posts": "Posts",
+		"account": "Account"
+	},
+	"profile": {
+		"title": "Account Settings",
+		"saved": "Saved",
+		"save": "Save",
+		"logout": "Log out",
+		"chooselan": "Language selection",
+		"errorsavedata": "Error saving data",
+		"errorloaddata": "Failed to load data"
+	},
+	"avatar": {
+		"uploadavatar": "Upload avatar",
+		"tips": "choose an avatar",
+		"preview": "Preview"
+	},
+	"posts": {
+		"title": "Posts",
+		"create": "Create post",
+		"emptyposts": "No posts yet",
+		"imgcity": "Image of the city",
+		"country": "Country",
+		"city": "City",
+		"vacationfrom": "from",
+		"vacationTo": "to",
+		"uploadimg": "Upload image",
+		"addtravel": "Add travel",
+		"datetravel": "Travel date",
+		"fields": "Please fill in all fields",
+		"successpostcreate": "Post successfully created",
+		"errordata": "Invalid date specified",
+		"fieldneedwrite": "Please fill in the {{field}} field"
+	},
+	"signin": {
+		"title": "Sign In",
+		"methods": "Sign In Methods",
+		"siginbtn": "Sign in",
+		"notaccount": "Don't have an account?",
+		"register": "Register"
+	},
+	"signup": {
+		"title": "Sign Up",
+		"methods": "Sign Up Methods",
+		"register": "Register",
+		"alreadyhaveaccount": "Already have an account?",
+		"signin": "Sign in",
+		"agree": "By clicking Register you agree to the",
+		"polite": "Privacy Policy"
+	},
+	"emailauth": {
+		"incorrectemail": "Invalid email entered",
+		"incorrectpassword": "Invalid password entered"
+	},
+	"phoneauth": {
+		"sendcode": "Send code",
+		"confirm": "Confirm",
+		"errorsendcode": "Failed to send code, please check your phone number",
+		"verifycode": "Incorrect code entered, please try again"
+	}
+}

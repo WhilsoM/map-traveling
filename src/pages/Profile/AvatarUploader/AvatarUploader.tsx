@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import s from './avatar-uploader.module.scss'
 
 interface AvatarUploaderProps {
@@ -8,7 +9,7 @@ interface AvatarUploaderProps {
 
 export const AvatarUploader = ({ avatar, onChange }: AvatarUploaderProps) => {
 	const fileInputRef = useRef<HTMLInputElement>(null)
-
+	const { t } = useTranslation()
 	const handleButtonClick = () => {
 		fileInputRef?.current?.click()
 	}
@@ -24,7 +25,7 @@ export const AvatarUploader = ({ avatar, onChange }: AvatarUploaderProps) => {
 			/>
 			{!avatar && (
 				<button className={s.uploadButton} onClick={handleButtonClick}>
-					Загрузить аватар
+					{t('avatar.uploadavatar')}
 				</button>
 			)}
 
@@ -33,10 +34,10 @@ export const AvatarUploader = ({ avatar, onChange }: AvatarUploaderProps) => {
 					<img
 						className={s.previewAvatar__img}
 						src={avatar}
-						alt='Предпросмотр'
+						alt={t('avatar.preview')}
 						onClick={handleButtonClick}
-						title='выбрать аватар'
-						aria-label='выбрать аватар'
+						title={t('avatar.tips')}
+						aria-label={t('avatar.tips')}
 					/>
 				</div>
 			)}

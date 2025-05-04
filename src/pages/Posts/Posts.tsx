@@ -1,6 +1,7 @@
 import { useWebSocket } from '@shared/hooks/useWebSocket'
 import { ButtonUi } from '@ui/index'
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CreatePostModal } from './CreatePostModal/CreatePostModal'
 import { Post } from './Post/Post'
 import s from './posts.module.scss'
@@ -25,7 +26,7 @@ export enum SocketEventType {
 export const Posts = () => {
 	const [posts, setPosts] = useState<PostsProps[]>([])
 	const [isOpenModal, setIsOpenModal] = useState(false)
-	console.log(posts)
+	const { t } = useTranslation()
 
 	useEffect(() => {
 		getAllPosts()
@@ -43,12 +44,7 @@ export const Posts = () => {
 	}
 
 	const handleMessage = useCallback((message: { type: string; data: any }) => {
-		console.log('handle message websocket', message)
-
 		if (message.type === SocketEventType.NewPost) {
-			console.log('выполнилось handle message with websocket event')
-			console.log(posts)
-
 			setPosts((prev) => [message.data, ...prev])
 		}
 	}, [])
@@ -57,7 +53,7 @@ export const Posts = () => {
 
 	return (
 		<div className={`container ${s.posts}`}>
-			<h2 className={`section-title tac`}>Ваши публикации</h2>
+			<h2 className={`section-title tac`}>{t('posts.title')}</h2>
 			<div className={s.btnCreatePost}>
 				<ButtonUi
 					onClick={() => setIsOpenModal(true)}
@@ -65,7 +61,7 @@ export const Posts = () => {
 					variants='fill'
 					className={s.createNewPostBtn}
 				>
-					Создать пост
+					{t('posts.create')}
 				</ButtonUi>
 			</div>
 

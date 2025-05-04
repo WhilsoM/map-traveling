@@ -8,6 +8,8 @@ import { auth, db } from '@api/firebase'
 import { ButtonUi, InputUi } from '@ui/index'
 import { AvatarUploader } from './AvatarUploader/AvatarUploader'
 
+import { useTranslation } from 'react-i18next'
+import { LangSwitcher } from './LangSwitcher/LangSwitcher'
 import s from './profile.module.scss'
 
 interface UserData {
@@ -32,6 +34,7 @@ export const Profile = () => {
 	const [error, setError] = useState('')
 	const [isSaved, setIsSaved] = useState(false)
 	const navigate = useNavigate()
+	const { t } = useTranslation()
 
 	useEffect(() => {
 		if (user?.uid) loadUserData(user.uid)
@@ -46,7 +49,7 @@ export const Profile = () => {
 				setAvatar(data.profile_picture || '')
 			}
 		} catch (e: any) {
-			setError('Не удалось загрузить данные')
+			setError(t('profile.errorloaddata'))
 		}
 	}
 
@@ -72,7 +75,7 @@ export const Profile = () => {
 			setIsSaved(true)
 			setTimeout(() => setIsSaved(false), 2000)
 		} catch (e: any) {
-			setError('Ошибка при сохранении данных')
+			setError(t('profile.errorsavedata'))
 		}
 	}
 
@@ -135,13 +138,13 @@ export const Profile = () => {
 
 	return (
 		<div className={`container ${s.profile}`}>
-			<h2 className='section-title tac'>Настройки Аккаунта</h2>
+			<h2 className='section-title tac'>{t('profile.title')}</h2>
 
 			<AvatarUploader avatar={avatar} onChange={handleUpload} />
 
 			<form onSubmit={handleSubmit} className={s.profile__form}>
 				<label className='label' htmlFor='name'>
-					Имя
+					{t('name')}
 				</label>
 				<InputUi
 					id='name'
@@ -154,7 +157,7 @@ export const Profile = () => {
 				/>
 
 				<label className='label' htmlFor='surname'>
-					Фамилия
+					{t('surname')}
 				</label>
 				<InputUi
 					id='surname'
@@ -167,7 +170,7 @@ export const Profile = () => {
 				/>
 
 				<label className='label' htmlFor='phone'>
-					Телефон
+					{t('phone')}
 				</label>
 				<InputUi
 					id='phone'
@@ -180,7 +183,7 @@ export const Profile = () => {
 				/>
 
 				<label className='label' htmlFor='email'>
-					Email
+					{t('email')}
 				</label>
 				<InputUi
 					id='email'
@@ -195,13 +198,17 @@ export const Profile = () => {
 				{error && <p className='error'>{error}</p>}
 
 				<ButtonUi className={`btn ${s.saveData}`} variants='fill' type='submit'>
-					{isSaved ? 'Сохранено' : 'Сохранить'}
+					{isSaved ? t('profile.saved') : t('profile.save')}
 				</ButtonUi>
 			</form>
 
 			<ButtonUi onClick={handleLogout} className={s.logout}>
-				Выйти из аккаунта
+				{t('profile.logout')}
 			</ButtonUi>
+
+			<h2 className='section-title'>{t('profile.chooselan')}</h2>
+
+			<LangSwitcher />
 		</div>
 	)
 }

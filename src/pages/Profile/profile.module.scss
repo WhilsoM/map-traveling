@@ -2,8 +2,12 @@
 
 .profile {
 	margin-top: 1rem !important;
+	height: 85vh;
+	overflow-y: scroll;
 }
-
+.profile::-webkit-scrollbar {
+	display: none;
+}
 .saveData {
 	margin-top: 1.725rem;
 	width: 100%;
@@ -24,4 +28,8 @@
 .logout:focus {
 	background-color: $red-color !important;
 	color: $white-color !important;
+}
+.changeLanguages {
+	@include flexCenter();
+	gap: 1rem;
 }
