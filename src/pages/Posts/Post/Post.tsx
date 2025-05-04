@@ -33,20 +33,19 @@ export const Post = ({
 				<div className={s.where}>
 					<p>
 						<span>
-							Страна: <span>{country ?? 'Страна не указана'}</span>
+							Страна: <span>{country}</span>
 						</span>
 						<span>
-							Город: <span>{city ?? 'Город не указан'}</span>
+							Город: <span>{city}</span>
 						</span>
 					</p>
 					<p>
-						Отдыхал с <span>{dateFrom ?? 'с какого периода не указано'}</span>{' '}
-						по <span>{dateTo ?? 'до какого периода не указано'}</span>{' '}
+						с <span>{dateFrom}</span> по <span>{dateTo}</span>{' '}
 					</p>
 				</div>
 
 				<div className={s.travel_about}>
-					<p>{info ?? 'Заметка не указана'}</p>
+					<p>{info}</p>
 				</div>
 			</div>
 		</article>

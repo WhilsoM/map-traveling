@@ -2,12 +2,13 @@ import { EmailAuth, PhoneAuth } from '@components/ChooseAuth'
 import { formEmailSignIn, formPhoneSignIn } from '@shared/config/const'
 import { ButtonUi } from '@ui/index'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import s from '../sign.module.scss'
 
 export const SignIn = () => {
 	const [activeTab, setActiveTab] = useState('email')
-
+	const { t } = useTranslation()
 	const condition = activeTab === 'email' ? formEmailSignIn : formPhoneSignIn
 
 	return (
@@ -23,7 +24,7 @@ export const SignIn = () => {
 
 			{/* SLICE TO COMPONENT THIS */}
 			<div className={`${s['sign-up-methods']}`}>
-				<p className={s['sign-up-text']}>Методы регистрации</p>
+				<p className={s['sign-up-text']}>Методы Авторизации</p>
 
 				<div className={`${s['methods-wrapper']}`}>
 					<ButtonUi
@@ -31,14 +32,14 @@ export const SignIn = () => {
 						onClick={() => setActiveTab('email')}
 						type='button'
 					>
-						Почта
+						{t('email')}
 					</ButtonUi>
 					<ButtonUi
 						className={activeTab === 'phone' ? 'active' : ''}
 						onClick={() => setActiveTab('phone')}
 						type='button'
 					>
-						Номер телефона
+						{t('phone')}
 					</ButtonUi>
 				</div>
 			</div>

@@ -2,12 +2,13 @@ import { EmailAuth, PhoneAuth } from '@components/ChooseAuth'
 import { formEmailSignUp, formPhoneSignUp } from '@shared/config/const'
 import { ButtonUi } from '@ui/index'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import s from '../sign.module.scss'
 
 export const SignUp = () => {
 	const [activeTab, setActiveTab] = useState('email')
-
+	const { t } = useTranslation()
 	const condition = activeTab === 'email' ? formEmailSignUp : formPhoneSignUp
 
 	return (
@@ -30,14 +31,14 @@ export const SignUp = () => {
 						onClick={() => setActiveTab('email')}
 						type='button'
 					>
-						Почта
+						{t('email')}
 					</ButtonUi>
 					<ButtonUi
 						className={activeTab === 'phone' ? 'active' : ''}
 						onClick={() => setActiveTab('phone')}
 						type='button'
 					>
-						Номер телефона
+						{t('phone')}
 					</ButtonUi>
 				</div>
 			</div>
@@ -47,19 +48,19 @@ export const SignUp = () => {
 				form={condition}
 				type='submit'
 			>
-				Зарегистрироваться
+				{t('signup.register')}
 			</ButtonUi>
 
 			<p className={s['sign-text']}>
-				Уже есть аккаунт ?{' '}
+				{t('signup.alreadyhaveaccount')} ?{' '}
 				<Link className={s['sign-link']} to={'/auth/login'}>
-					Войти
+					{t('signin')}
 				</Link>
 			</p>
 			<p className={s['sign-text']}>
-				Нажимая кнопку Зарегистрироваться вы соглашаетесь с{' '}
+				{t('signup.agree')}{' '}
 				<Link className={s['sign-link']} to={'/auth/policy'}>
-					Политикой конфиденциальности
+					{t('signup.polite')}
 				</Link>
 			</p>
 		</div>

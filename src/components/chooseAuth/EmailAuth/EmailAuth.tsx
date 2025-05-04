@@ -1,12 +1,13 @@
 import { auth } from '@api/firebase'
 import { InputUi } from '@ui/index'
-import { type FirebaseError } from 'firebase/app'
+import { FirebaseError } from 'firebase/app'
 import {
 	createUserWithEmailAndPassword,
 	getAuth,
 	signInWithEmailAndPassword,
 } from 'firebase/auth'
 import { type FormEvent, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import s from '../choose-auth.module.scss'
 import { type AuthProps } from '../types'
@@ -16,7 +17,7 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 	const [password, setPassword] = useState('')
 	const [errors, setErrors] = useState({ email: '', password: '' })
 	const navigate = useNavigate()
-
+	const { t } = useTranslation()
 	const registerWithEmail = async (email: string, password: string) => {
 		checkValidation()
 
@@ -71,8 +72,8 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 		}
 		if (!email || !password) {
 			setErrors({
-				email: 'Неверно заполнена почта',
-				password: 'Неверно заполнен пароль',
+				email: t('emailauth.incorrectemail'),
+				password: t('emailauth.incorrectpassword'),
 			})
 			return
 		}
@@ -83,12 +84,8 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 		e.preventDefault()
 
 		if (method === 'register') {
-			console.log('register')
-
 			registerWithEmail(email, password)
 		} else {
-			console.log('auth')
-
 			handleSignIn(email, password)
 		}
 	}
@@ -96,7 +93,7 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 		<>
 			<form className={s.form} id={id} onSubmit={(e) => handleSubmit(e)}>
 				<label className='label'>
-					Почта
+					{t('email')}
 					<InputUi
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
@@ -106,7 +103,7 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 					/>
 				</label>
 
-				<label className={'label'}>Пароль</label>
+				<label className={'label'}>{t('password')}</label>
 				<InputUi
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}

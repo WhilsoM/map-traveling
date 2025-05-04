@@ -13,6 +13,7 @@ import {
 	useRef,
 	useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import s from '../choose-auth.module.scss'
 import { AuthProps } from '../types'
 
@@ -28,6 +29,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 	const inputsRef = useRef<Array<HTMLInputElement | null>>([])
 
 	const recaptchaContainer = useRef<HTMLDivElement>(null)
+	const { t } = useTranslation()
 
 	useEffect(() => {
 		if (!(window as any).recaptchaVerifier && recaptchaContainer.current) {
@@ -64,8 +66,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 			console.log('Код отправлен!')
 		} catch (error) {
 			setError({
-				message:
-					'Ошибка отправки кода, пожалуйста проверьте правильность номера телефона',
+				message: t('phoneauth.errorsendcode'),
 			})
 			console.error('Ошибка отправки кода:', error)
 		}
@@ -81,7 +82,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 			console.log('Пользователь вошёл:', res.user)
 		} catch (err) {
 			setError({
-				message: 'Вы ввели неверный код, пожалуйста повторите попытку',
+				message: t('phoneauth.verifycode'),
 			})
 			console.error('Неверный код:', err)
 		}
@@ -132,7 +133,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 				}}
 			>
 				<label className={'label'}>
-					Номер телефона
+					{t('phone')}
 					<InputUi
 						className={'input'}
 						type='tel'
@@ -148,7 +149,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 					className={`${s.sendCode} ${phone.length < 5 ? s.disabled : null}`}
 					onClick={sendCode}
 				>
-					Отправить код
+					{t('phoneauth.sendcode')}
 				</ButtonUi>
 
 				<div ref={recaptchaContainer}></div>
@@ -175,7 +176,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 							/>
 						))}
 						<ButtonUi variants='fill' onClick={verifyCode}>
-							Подтвердить
+							{t('phoneauth.confirm')}
 						</ButtonUi>
 					</>
 				)}
