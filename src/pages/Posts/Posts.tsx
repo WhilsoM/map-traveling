@@ -31,30 +31,6 @@ export const Posts = () => {
 		getAllPosts()
 	}, [])
 
-	useEffect(() => {
-		const socket = new WebSocket('ws://localhost:3000')
-
-		socket.onopen = () => {
-			console.log('WebSocket connected')
-		}
-
-		socket.onmessage = (event) => {
-			console.log('Received:', event.data)
-		}
-
-		socket.onerror = (error) => {
-			console.error('WebSocket error:', error)
-		}
-
-		socket.onclose = () => {
-			console.log('WebSocket closed')
-		}
-
-		return () => {
-			socket.close()
-		}
-	}, [])
-
 	const getAllPosts = async () => {
 		try {
 			const response = await fetch('/api/posts')
@@ -73,7 +49,7 @@ export const Posts = () => {
 			console.log('выполнилось handle message with websocket event')
 			console.log(posts)
 
-			setPosts((prev) => [...prev, message.data])
+			setPosts((prev) => [message.data, ...prev])
 		}
 	}, [])
 
