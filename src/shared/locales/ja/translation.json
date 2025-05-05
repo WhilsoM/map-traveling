@@ -5,6 +5,7 @@
 	"phone": "電話番号",
 	"password": "パスワード",
 	"loading": "読み込み中...",
+	"lang": "en_US",
 	"bottomsheet": {
 		"home": "ホーム",
 		"posts": "投稿",

@@ -5,6 +5,7 @@
 	"phone": "Phone number",
 	"password": "Password",
 	"loading": "Loading...",
+	"lang": "en_US",
 	"bottomsheet": {
 		"home": "Home",
 		"posts": "Posts",

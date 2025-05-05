@@ -37,7 +37,7 @@ export const Posts = () => {
 			const response = await fetch(`/api/posts`)
 			const data = await response.json()
 
-			setPosts((prev) => [...prev, ...data])
+			setPosts(data)
 		} catch (error) {
 			console.log(error)
 		}

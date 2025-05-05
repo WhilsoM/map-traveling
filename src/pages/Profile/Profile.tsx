@@ -25,8 +25,8 @@ export const Profile = () => {
 	const [userData, setUserData] = useState<UserData>({
 		name: '',
 		surname: '',
-		email: '',
-		phone: '',
+		email: user?.email ?? '',
+		phone: user?.phoneNumber ?? '',
 		profile_picture: '',
 	})
 	const [avatar, setAvatar] = useState('')
