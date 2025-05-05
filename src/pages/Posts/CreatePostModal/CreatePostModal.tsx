@@ -9,10 +9,7 @@ import s from '../posts.module.scss'
 
 type CreatePostModalProps = Omit<ModalUiProps, 'children'>
 
-export const CreatePostModal = ({
-	isOpenModal,
-	setIsOpenModal,
-}: CreatePostModalProps) => {
+export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 	const user = useAuthState(auth)
 	const [country, setCountry] = useState('')
 	const [city, setCity] = useState('')
@@ -137,7 +134,7 @@ export const CreatePostModal = ({
 	}
 
 	return (
-		<ModalUi isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
+		<ModalUi setIsOpenModal={setIsOpenModal}>
 			<form onSubmit={(e) => createPost(e)}>
 				<div>
 					<label className={s['input-file']}>

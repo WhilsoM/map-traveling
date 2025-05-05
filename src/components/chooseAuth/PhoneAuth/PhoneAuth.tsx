@@ -21,7 +21,6 @@ const CODE_LENGTH = 6
 
 export const PhoneAuth = ({ id }: AuthProps) => {
 	const [phone, setPhone] = useState('')
-	const [code, setCode] = useState('')
 	const [error, setError] = useState({ message: '' })
 	const [confirmationResult, setConfirmationResult] =
 		useState<ConfirmationResult | null>(null)
@@ -52,7 +51,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 		for (let i = 0; i < inputsRef.current.length; i++) {
 			fullCode += inputsRef.current[i]?.value
 		}
-		setCode(fullCode)
+
 		return fullCode
 	}
 
@@ -160,7 +159,7 @@ export const PhoneAuth = ({ id }: AuthProps) => {
 							<InputUi
 								key={i}
 								ref={(el) => {
-									return (inputsRef.current[i] = el)
+									inputsRef.current[i] = el
 								}}
 								type='text'
 								inputMode='numeric'
