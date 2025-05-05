@@ -5,6 +5,7 @@
 	"phone": "Номер телефона",
 	"password": "Пароль",
 	"loading": "Загрузка...",
+	"lang": "ru_RU",
 	"bottomsheet": {
 		"home": "Главная",
 		"posts": "Публикации",
