@@ -84,12 +84,7 @@ export const Posts = () => {
 				)}
 			</section>
 
-			{isOpenModal && (
-				<CreatePostModal
-					isOpenModal={isOpenModal}
-					setIsOpenModal={setIsOpenModal}
-				/>
-			)}
+			{isOpenModal && <CreatePostModal setIsOpenModal={setIsOpenModal} />}
 		</div>
 	)
 }
