@@ -33,6 +33,7 @@ export const Profile = () => {
 	const [avatarFile, setAvatarFile] = useState<File | null>(null)
 	const [error, setError] = useState('')
 	const [isSaved, setIsSaved] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 	const navigate = useNavigate()
 	const { t } = useTranslation()
 
@@ -42,6 +43,7 @@ export const Profile = () => {
 
 	const loadUserData = async (uid: string) => {
 		try {
+			setIsLoading(true)
 			const snapshot = await get(dbRef(db, `users/${uid}`))
 			if (snapshot.exists()) {
 				const data = snapshot.val() as UserData
@@ -50,6 +52,8 @@ export const Profile = () => {
 			}
 		} catch (e: any) {
 			setError(t('profile.errorloaddata'))
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -63,6 +67,7 @@ export const Profile = () => {
 		if (!user) return
 
 		try {
+			setIsLoading(true)
 			let avatarUrl = userData.profile_picture
 
 			if (avatarFile) {
@@ -76,6 +81,8 @@ export const Profile = () => {
 			setTimeout(() => setIsSaved(false), 2000)
 		} catch (e: any) {
 			setError(t('profile.errorsavedata'))
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -198,7 +205,8 @@ export const Profile = () => {
 				{error && <p className='error'>{error}</p>}
 
 				<ButtonUi className={`btn ${s.saveData}`} variants='fill' type='submit'>
-					{isSaved ? t('profile.saved') : t('profile.save')}
+					{isSaved ? t('profile.saved') : t('profile.save')}{' '}
+					{isLoading ? ` : ${t('loading')}` : ''}
 				</ButtonUi>
 			</form>
 

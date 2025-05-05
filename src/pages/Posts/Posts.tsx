@@ -29,15 +29,15 @@ export const Posts = () => {
 	const { t } = useTranslation()
 
 	useEffect(() => {
-		getAllPosts()
+		getPosts()
 	}, [])
 
-	const getAllPosts = async () => {
+	const getPosts = async () => {
 		try {
-			const response = await fetch('/api/posts')
+			const response = await fetch(`/api/posts`)
 			const data = await response.json()
 
-			setPosts(data)
+			setPosts((prev) => [...prev, ...data])
 		} catch (error) {
 			console.log(error)
 		}
@@ -67,7 +67,7 @@ export const Posts = () => {
 
 			<section className={s.posts__wrapper}>
 				{posts.length === 0 ? (
-					<p className={s.emptyPosts}>Постов нету :)</p>
+					<p className={s.emptyPosts}>Постов нету</p>
 				) : (
 					posts.map((el) => (
 						<Post
