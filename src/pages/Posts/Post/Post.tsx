@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify'
 import { PostsProps } from '../Posts'
 import s from '../posts.module.scss'
 
@@ -12,6 +13,7 @@ export const Post = ({
 	info,
 	author,
 }: PostProps) => {
+	const cleanHTML = DOMPurify.sanitize(info)
 	return (
 		<article className={s.post}>
 			<div className={s.post__wrapper_img}>
@@ -45,7 +47,7 @@ export const Post = ({
 				</div>
 
 				<div className={s.travel_about}>
-					<p>{info}</p>
+					<div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
 				</div>
 			</div>
 		</article>

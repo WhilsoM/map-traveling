@@ -1,8 +1,9 @@
-interface ButtonUiProps {
+import { ButtonHTMLAttributes, ReactNode } from 'react'
+
+interface ButtonUiProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	type?: 'submit' | 'button'
 	variants?: 'fill' | 'outlined'
-	children: React.ReactNode
-	onClick?: () => void
+	children: ReactNode
 	className?: string
 	form?: string
 	disabled?: boolean
