@@ -1,12 +1,14 @@
 import { auth } from '@api/firebase'
+import { BoldIcon } from '@assets/icons/Ui/BoldIcon'
 import { ImgIcon } from '@assets/icons/Ui/ImgIcon'
+import { ItalicIcon } from '@assets/icons/Ui/ItalicIcon'
 import { ButtonUi, InputUi } from '@ui/index'
 import { ModalUi, ModalUiProps } from '@ui/ModalUi/ModalUi'
+import DOMPurify from 'dompurify'
 import { type ChangeEvent, type FormEvent, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useTranslation } from 'react-i18next'
 import s from '../posts.module.scss'
-
 type CreatePostModalProps = Omit<ModalUiProps, 'children'>
 
 export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
@@ -18,11 +20,14 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 	const fileRef = useRef<HTMLInputElement>(null)
 	const firstInputRef = useRef<HTMLInputElement>(null)
 	const secondInputRef = useRef<HTMLInputElement>(null)
-	const infoRef = useRef<HTMLTextAreaElement>(null)
+	const infoRef = useRef<HTMLDivElement>(null)
 	const { t } = useTranslation()
 
 	const emailUser = user[0]?.email
+	const author =
+		emailUser !== null || emailUser !== undefined ? emailUser : 'anonymus'
 
+	// это тоже вынести
 	const previewFile = () => {
 		const file = fileRef.current?.files?.[0]
 		if (!file || !imgRef.current) return
@@ -49,7 +54,12 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 		}
 		reader.readAsDataURL(file)
 	}
-
+	const cleanHTML = (html: string) => {
+		// С помощью DOMPurify очистим HTML и оставим только необходимые теги
+		return DOMPurify.sanitize(html, {
+			ALLOWED_TAGS: ['b', 'strong', 'i', 'u', 'em'],
+		})
+	}
 	const createPost = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		checkValidation()
@@ -63,9 +73,8 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 			city,
 			dateFrom: firstInputRef.current?.value,
 			dateTo: secondInputRef.current?.value,
-			info: infoRef.current?.value,
-			author:
-				emailUser !== null || emailUser !== undefined ? emailUser : 'anonymus',
+			info: cleanHTML(infoRef.current?.innerHTML || ''),
+			author: author,
 			img: imgRef.current?.src,
 		}
 
@@ -113,7 +122,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 			})
 		}
 	}
-
+	// вынести в утилиты и сделать переиспользуемую функцию
 	const checkValidation = () => {
 		const MIN_LENGTH = 3
 
@@ -131,6 +140,42 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 		}
 
 		return setError({ error: false, message: '' })
+	}
+
+	const handleCommand = (command: string) => (e: React.MouseEvent) => {
+		e.preventDefault()
+		const selection = window.getSelection()
+		if (selection && selection.rangeCount > 0) {
+			const range = selection.getRangeAt(0)
+			const span = document.createElement('span')
+
+			if (command === 'bold') {
+				const isBold =
+					range.startContainer.parentNode?.nodeName === 'B' ||
+					range.startContainer.parentNode?.nodeName === 'strong'
+
+				if (isBold) {
+					document.execCommand('removeFormat')
+				} else {
+					const bold = document.createElement('b')
+
+					range.surroundContents(bold)
+				}
+			}
+
+			if (command === 'italic') {
+				const isItalic =
+					range.startContainer.parentNode?.nodeName === 'I' ||
+					range.startContainer.parentNode?.nodeName === 'EM'
+
+				if (isItalic) {
+					document.execCommand('removeFormat')
+				} else {
+					const italic = document.createElement('i')
+					range.surroundContents(italic)
+				}
+			}
+		}
 	}
 
 	return (
@@ -212,8 +257,25 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 						</div>
 					</div>
 				</div>
+				<div>
+					<div className={s.editorBtns}>
+						<ButtonUi onMouseDown={handleCommand('bold')} type='button'>
+							<BoldIcon color='white' size={15} />
+						</ButtonUi>
+						<ButtonUi onMouseDown={handleCommand('italic')} type='button'>
+							<ItalicIcon color='white' size={15} />
+						</ButtonUi>
+					</div>
 
-				<textarea ref={infoRef} className={s.textInfo}></textarea>
+					<div
+						contentEditable
+						suppressContentEditableWarning
+						ref={infoRef}
+						className={s.textInfo}
+						id='textarea'
+						tabIndex={0}
+					></div>
+				</div>
 
 				{error.error && <p className='error'>{error.message}</p>}
 				<ButtonUi

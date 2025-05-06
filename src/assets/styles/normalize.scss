@@ -14,7 +14,14 @@
 	all: unset;
 	display: revert;
 }
-
+i,
+em {
+	font-style: italic !important;
+}
+b,
+strong {
+	font-weight: bold;
+}
 /* Preferred box-sizing value */
 *,
 *::before,
