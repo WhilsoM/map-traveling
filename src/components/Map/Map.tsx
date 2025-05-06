@@ -1,7 +1,9 @@
 import { ShowInfo } from '@components/ShowInfo/ShowInfo'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
+import { ModalUi } from '@ui/index'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import s from './map.module.scss'
 
 export const MapComponent = () => {
 	const [isOpen, setIsOpen] = useState(false)
@@ -19,7 +21,6 @@ export const MapComponent = () => {
 			})
 		})
 	}, [])
-	console.log(isOpen)
 
 	return (
 		<YMaps
@@ -35,28 +36,24 @@ export const MapComponent = () => {
 				}}
 				width='100%'
 				height='100vh'
+				className={s.map}
 			>
-				<div
-					style={{
-						width: isOpen ? 300 : 0,
-						height: isOpen ? 300 : 0,
+				<Placemark
+					options={{
+						iconColor: 'black',
 					}}
-				>
-					{isOpen && (
+					geometry={[position.latitude, position.longitude]}
+					onClick={() => setIsOpen((prev) => !prev)}
+				/>
+
+				{isOpen && (
+					<ModalUi setIsOpenModal={setIsOpen}>
 						<ShowInfo
 							latitude={position.latitude}
 							longitude={position.longitude}
 						/>
-					)}
-					<Placemark
-						options={{
-							iconColor: 'black',
-							openHintOnHover: true,
-							openBalloonOnClick: true,
-						}}
-						geometry={[position.latitude, position.longitude]}
-					/>
-				</div>
+					</ModalUi>
+				)}
 			</Map>
 		</YMaps>
 	)

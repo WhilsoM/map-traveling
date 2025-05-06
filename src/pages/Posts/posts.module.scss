@@ -29,7 +29,12 @@
 	&__wrapper_img {
 		margin-bottom: 1rem;
 	}
+
+	&Img {
+		cursor: pointer;
+	}
 }
+
 .where {
 	@include flexColumn();
 	& p {
@@ -47,7 +52,9 @@
 .create_post {
 	background-color: $white-color;
 }
-
+.createPostModal {
+	background-color: $white-color;
+}
 .country_input,
 .city_input {
 	margin-bottom: 0.5rem;
