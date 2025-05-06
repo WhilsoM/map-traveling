@@ -1,0 +1,13 @@
+@use '@assets/styles/global' as *;
+
+.showInfo {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, 50%);
+	width: 17rem;
+	height: 4rem;
+	padding: 0.5rem 1rem;
+	z-index: 9999999;
+	background-color: $white-color;
+}

@@ -147,7 +147,6 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 		const selection = window.getSelection()
 		if (selection && selection.rangeCount > 0) {
 			const range = selection.getRangeAt(0)
-			const span = document.createElement('span')
 
 			if (command === 'bold') {
 				const isBold =
@@ -179,7 +178,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 	}
 
 	return (
-		<ModalUi setIsOpenModal={setIsOpenModal}>
+		<ModalUi className={s.createPostModal} setIsOpenModal={setIsOpenModal}>
 			<form onSubmit={(e) => createPost(e)}>
 				<div>
 					<label className={s['input-file']}>

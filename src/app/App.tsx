@@ -1,7 +1,6 @@
 import { CheckAuthUser } from '@components/CheckAuthUser/CheckAuthUser'
 
 import { Home } from '@pages/Home/Home'
-import { PolicySecurity } from '@pages/PolicySecurity/'
 import { Posts } from '@pages/Posts/Posts'
 import { Profile } from '@pages/Profile/Profile'
 import { SignIn, SignUp } from '@pages/Sign'
@@ -19,7 +18,6 @@ export const App = () => {
 				<Route path='/auth' element={<AuthLayout />}>
 					<Route path='register' element={<SignUp />} />
 					<Route path='login' element={<SignIn />} />
-					<Route path='policy' element={<PolicySecurity />} />
 				</Route>
 
 				<Route path='/page' element={<Layout />}>

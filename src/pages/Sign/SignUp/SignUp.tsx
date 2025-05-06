@@ -57,12 +57,6 @@ export const SignUp = () => {
 					{t('signin')}
 				</Link>
 			</p>
-			<p className={s['sign-text']}>
-				{t('signup.agree')}{' '}
-				<Link className={s['sign-link']} to={'/auth/policy'}>
-					{t('signup.polite')}
-				</Link>
-			</p>
 		</div>
 	)
 }
