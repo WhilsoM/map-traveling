@@ -1,6 +1,5 @@
-import { useWebSocket } from '@shared/hooks/useWebSocket'
 import { ButtonUi } from '@ui/index'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CreatePostModal } from './CreatePostModal/CreatePostModal'
 import { Post } from './Post/Post'
@@ -42,14 +41,6 @@ export const Posts = () => {
 			console.log(error)
 		}
 	}
-
-	const handleMessage = useCallback((message: { type: string; data: any }) => {
-		if (message.type === SocketEventType.NewPost) {
-			setPosts((prev) => [message.data, ...prev])
-		}
-	}, [])
-
-	useWebSocket(handleMessage)
 
 	return (
 		<div className={`container ${s.posts}`}>

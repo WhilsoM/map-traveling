@@ -5,7 +5,7 @@ import { ItalicIcon } from '@assets/icons/Ui/ItalicIcon'
 import { ButtonUi, InputUi } from '@ui/index'
 import { ModalUi, ModalUiProps } from '@ui/ModalUi/ModalUi'
 import DOMPurify from 'dompurify'
-import { type ChangeEvent, type FormEvent, useRef, useState } from 'react'
+import { type ChangeEvent, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useTranslation } from 'react-i18next'
 import s from '../posts.module.scss'
@@ -27,7 +27,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 	const author =
 		emailUser !== null || emailUser !== undefined ? emailUser : 'anonymus'
 
-	// это тоже вынести
+	// utils/
 	const previewFile = () => {
 		const file = fileRef.current?.files?.[0]
 		if (!file || !imgRef.current) return
@@ -55,13 +55,12 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 		reader.readAsDataURL(file)
 	}
 	const cleanHTML = (html: string) => {
-		// С помощью DOMPurify очистим HTML и оставим только необходимые теги
+		// clear HTML tags and only save in obj
 		return DOMPurify.sanitize(html, {
 			ALLOWED_TAGS: ['b', 'strong', 'i', 'u', 'em'],
 		})
 	}
-	const createPost = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
+	const createPost = async () => {
 		checkValidation()
 
 		if (error.error) {
@@ -179,7 +178,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 
 	return (
 		<ModalUi className={s.createPostModal} setIsOpenModal={setIsOpenModal}>
-			<form onSubmit={(e) => createPost(e)}>
+			<form onSubmit={createPost}>
 				<div>
 					<label className={s['input-file']}>
 						<img ref={imgRef} width={'100%'} height={'200px'} />
