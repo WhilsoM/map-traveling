@@ -1,4 +1,4 @@
-import ModelViewer from '@components/Model/Model'
+import { ModelViewer } from '@components/ModelViewer/ModelViewer'
 import s from './show-info.module.scss'
 
 interface ShowInfoProps {
