@@ -1,12 +1,15 @@
 @use './fonts.scss' as *;
 
 // COLORS
-$white-color: #fff;
-$black-color: #232323;
-$gray-color: #b8b8b8;
-$text-color: #000;
-$accent-color: #929292;
-$bg-color: #fff;
+:root {
+	--bg-color: #ffffff;
+	--text-color: #000000;
+	--accent-color: #929292;
+	--white-color: #ffffff;
+	--black-color: #232323;
+	--gray-color: #b8b8b8;
+}
+
 $red-color: #c71717;
 // HOVER
 $hover-blue-color: #63a6f0;
@@ -43,13 +46,15 @@ $font-size-title: clamp(1.6rem, 3vw, 2.4rem);
 }
 
 // dark mode
-[data-theme='dark'] {
-	$bg-color: #121212;
-	$text-color: #f1f1f1;
-	$accent-color: #bababa;
+html[data-theme='dark'] {
+	--bg-color: #121212;
+	--text-color: #f1f1f1;
+	--accent-color: #bababa;
+	--black-color: #fff;
 }
+
 body {
-	background-color: $bg-color;
+	background-color: var(--bg-color);
 	font-family: $font-family-Manrope;
 }
 html {
@@ -71,19 +76,19 @@ html {
 	font-size: $font-size-title;
 	font-weight: 700;
 	margin-bottom: 15px;
-	color: $text-color;
+	color: var(--text-color);
 }
 
 .label {
 	display: block;
 	margin-bottom: 0.5rem;
-	color: $text-color;
+	color: var(--text-color);
 	font-weight: 500;
 	font-size: 0.9rem;
 }
 .input {
 	display: block;
-	color: $text-color;
+	color: var(--text-color);
 	margin-bottom: 0.5rem;
 	width: 100%;
 }
@@ -91,8 +96,8 @@ html {
 	cursor: pointer;
 }
 button.fill {
-	color: $white-color;
-	background-color: $black-color;
+	color: var(--white-color);
+	background-color: #232323;
 	padding: 10px 15px;
 	border-radius: $border-radius-elements;
 	transition: opacity 0.3s ease;
@@ -102,7 +107,7 @@ button.fill {
 }
 button.fill:focus {
 	opacity: 0.8;
-	border: 1px solid $white-color;
+	border: 1px solid var(--white-color);
 }
 button.fill:hover {
 	opacity: 0.9;
@@ -115,14 +120,14 @@ button.fill.active {
 .outlined {
 	padding: 5px 5px;
 	border-radius: $border-radius-elements;
-	border: 1px solid $accent-color;
+	border: 1px solid var(--accent-color);
 }
 
 input.outlined:focus {
 	border: 1px solid $hover-blue-color;
 }
 input.outlined::placeholder {
-	color: $accent-color;
+	color: var(--accent-color);
 }
 
 .error {

@@ -8,6 +8,9 @@ import { auth, db } from '@api/firebase'
 import { ButtonUi, InputUi } from '@ui/index'
 import { AvatarUploader } from './AvatarUploader/AvatarUploader'
 
+import { MoonIcon } from '@assets/icons/Ui/MoonIcon'
+import { SunIcon } from '@assets/icons/Ui/SunIcon'
+import { useThemeToggle } from '@shared/hooks/useThemeToggle'
 import { useTranslation } from 'react-i18next'
 import { LangSwitcher } from './LangSwitcher/LangSwitcher'
 import s from './profile.module.scss'
@@ -34,6 +37,7 @@ export const Profile = () => {
 	const [error, setError] = useState('')
 	const [isSaved, setIsSaved] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [isDarkTheme, setIsDarkTheme] = useState(false)
 	const navigate = useNavigate()
 	const { t } = useTranslation()
 
@@ -216,7 +220,22 @@ export const Profile = () => {
 
 			<h2 className='section-title'>{t('profile.chooselan')}</h2>
 
-			<LangSwitcher />
+			<div className={s.wrapperLangTheme}>
+				<LangSwitcher />
+
+				<ButtonUi
+					onClick={() => {
+						useThemeToggle()
+						setIsDarkTheme((prev) => !prev)
+					}}
+				>
+					{isDarkTheme ? (
+						<MoonIcon size={22} color='white' />
+					) : (
+						<SunIcon size={22} color='white' />
+					)}
+				</ButtonUi>
+			</div>
 		</div>
 	)
 }
