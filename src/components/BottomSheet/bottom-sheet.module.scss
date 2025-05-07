@@ -5,11 +5,12 @@
 	bottom: 0;
 	width: 100%;
 	height: 80px;
-	background-color: $white-color;
+	background-color: var(--bg-color);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-top: 1px solid $black-color;
+	border-top: 1px solid var(--black-color);
+	color: var(--text-color);
 
 	&Wrapper {
 		padding: 10px;
@@ -39,4 +40,9 @@
 .bottomSheetLink {
 	@include flexColumn;
 	@include flexCenter;
+	svg {
+		path {
+			fill: var(--accent-color);
+		}
+	}
 }

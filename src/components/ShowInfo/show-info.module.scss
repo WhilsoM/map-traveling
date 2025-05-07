@@ -9,7 +9,7 @@
 	height: 17rem;
 	padding: 0.5rem 1rem;
 	z-index: 9999999;
-	background-color: $white-color;
+	background-color: var(--white-color);
 	&_p {
 		@include flexColumn();
 		gap: 0.3rem;

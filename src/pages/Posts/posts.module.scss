@@ -11,7 +11,7 @@
 }
 
 .emptyPosts {
-	color: $accent-color;
+	color: var(--accent-color);
 	font-size: 1.3rem;
 	text-align: center;
 }
@@ -22,9 +22,9 @@
 // POST
 .post {
 	margin-bottom: 1.725rem;
-	border: 1px solid $gray-color;
+	border: 1px solid var(--gray-color);
 	padding: 0.5rem 1rem;
-	box-shadow: 2px 3px 14px $gray-color;
+	box-shadow: 2px 3px 14px var(--gray-color);
 
 	&__wrapper_img {
 		margin-bottom: 1rem;
@@ -32,6 +32,9 @@
 
 	&Img {
 		cursor: pointer;
+	}
+	&__wrapper_info {
+		color: var(--text-color);
 	}
 }
 
@@ -45,15 +48,15 @@
 	}
 }
 .travel_about {
-	color: $text-color;
+	color: var(--text-color);
 }
 
 // MODAL
 .create_post {
-	background-color: $white-color;
+	background-color: var(--white-color);
 }
 .createPostModal {
-	background-color: $white-color;
+	background-color: var(--white-color);
 }
 .country_input,
 .city_input {
@@ -83,7 +86,7 @@
 	font-size: 1rem;
 }
 .date_travel_input {
-	color: $black-color;
+	color: var(--black-color);
 }
 .createPostBtn {
 	width: 100%;
@@ -94,7 +97,7 @@
 	margin-bottom: 0.5rem;
 }
 .textInfo {
-	border: 1px solid $black-color;
+	border: 1px solid #232323;
 	border-radius: $border-radius-elements;
 	width: 500px;
 	height: 5rem;
@@ -126,12 +129,12 @@
 /* Hover/active */
 .input-file:hover .textUploadImg,
 .input-file:active .textUploadImg {
-	background-color: $black-color;
-	color: $white-color;
+	background-color: var(--black-color);
+	color: var(--white-color);
 }
 .input-file:hover .textUploadImg svg,
 .input-file:active .textUploadImg svg {
-	fill: $white-color;
+	fill: var(--white-color);
 }
 
 /* Disabled */
