@@ -4,9 +4,9 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, 50%);
-	max-width: 17rem;
-	height: 6rem;
+	transform: translate(-50%, -50%);
+	width: 24rem;
+	height: 17rem;
 	padding: 0.5rem 1rem;
 	z-index: 9999999;
 	background-color: $white-color;

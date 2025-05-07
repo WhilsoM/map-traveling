@@ -1,28 +1,14 @@
-import { OrbitControls, useGLTF } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
-
-function Model() {
-	const { scene, error } = useGLTF('/models/scene.gltf')
-
-	if (error) {
-		console.error('Error loading model:', error)
-		return null
-	}
-
-	if (!scene) {
-		return <p>Loading...</p>
-	}
-
-	return <primitive object={scene} scale={1.5} />
-}
-
 export function ModelViewer() {
 	return (
-		<Canvas camera={{ position: [0, 0, 5] }}>
-			<ambientLight />
-			<directionalLight position={[2, 2, 2]} />
-			<Model />
-			<OrbitControls />
-		</Canvas>
+		<div className='sketchfab-embed-wrapper'>
+			<iframe
+				allowFullScreen
+				allow='autoplay; fullscreen; xr-spatial-tracking'
+				xr-spatial-tracking='true'
+				execution-while-out-of-viewport='true'
+				execution-while-not-rendered='true'
+				src='https://sketchfab.com/models/142ff04d8ffd4912a5e5bd11542ca6fc/embed'
+			></iframe>
+		</div>
 	)
 }
