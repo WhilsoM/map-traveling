@@ -1,2 +1,2 @@
-export { EmailAuth } from './EmailAuth/EmailAuth.tsx'
-export { PhoneAuth } from './PhoneAuth/PhoneAuth.tsx'
+export { EmailAuth } from './EmailAuth/EmailAuth'
+export { PhoneAuth } from './PhoneAuth/PhoneAuth'

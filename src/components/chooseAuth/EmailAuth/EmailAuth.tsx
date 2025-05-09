@@ -27,6 +27,7 @@ export const EmailAuth = ({ id, method }: AuthProps) => {
 				email,
 				password
 			)
+
 			const token = await userCredential.user.getIdToken()
 			console.log('user registered:', userCredential)
 			console.log(token)
