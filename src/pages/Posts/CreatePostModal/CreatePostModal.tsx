@@ -78,7 +78,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 		}
 
 		try {
-			const res = await fetch('/api/posts', {
+			const res = await fetch(`${import.meta.env.VITE_API}api/posts`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

@@ -2,7 +2,6 @@ import { ShowInfo } from '@components/ShowInfo/ShowInfo'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import { ModalUi } from '@ui/index'
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import s from './map.module.scss'
 
 export const MapComponent = () => {
@@ -11,7 +10,6 @@ export const MapComponent = () => {
 		latitude: 55.75,
 		longitude: 37.57,
 	})
-	const { t } = useTranslation()
 
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition((position) => {
@@ -26,7 +24,6 @@ export const MapComponent = () => {
 		<YMaps
 			query={{
 				apikey: import.meta.env.VITE_YANDEX_MAPS_API_KEY,
-				lang: `${t('lang')}`,
 			}}
 		>
 			<Map
