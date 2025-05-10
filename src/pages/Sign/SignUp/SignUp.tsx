@@ -1,5 +1,4 @@
 import { EmailAuth } from '@components/ChooseAuth/emailAuth/EmailAuth'
-import { PhoneAuth } from '@components/ChooseAuth/phoneAuth/PhoneAuth'
 import { formEmailSignUp, formPhoneSignUp } from '@shared/config/const'
 import { ButtonUi } from '@ui/index'
 import { useState } from 'react'
@@ -16,12 +15,11 @@ export const SignUp = () => {
 		<div className={`${s['sign-up']} container container-wrapper`}>
 			<h1 className='section-title'>Регистрация</h1>
 
-			{activeTab === 'email' && (
-				<EmailAuth method='register' id={formEmailSignUp} />
-			)}
-			{activeTab === 'phone' && (
+			<EmailAuth method='register' id={formEmailSignUp} />
+
+			{/* {activeTab === 'phone' && (
 				<PhoneAuth method='register' id={formPhoneSignUp} />
-			)}
+			)} */}
 
 			<div className={`${s['sign-up-methods']}`}>
 				<p className={s['sign-up-text']}>Методы регистрации</p>
@@ -38,6 +36,8 @@ export const SignUp = () => {
 						className={activeTab === 'phone' ? 'active' : ''}
 						onClick={() => setActiveTab('phone')}
 						type='button'
+						disabled
+						title='в разработке'
 					>
 						{t('phone')}
 					</ButtonUi>
