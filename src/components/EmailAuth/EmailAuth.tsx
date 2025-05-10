@@ -10,9 +10,8 @@ import { type FormEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import s from '../choose-auth.module.scss'
-import { type AuthProps } from '../types'
 
-export const EmailAuth = ({ id, method }: AuthProps) => {
+export const EmailAuth = ({ id, method }: { id: string; method: string }) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [errors, setErrors] = useState({ email: '', password: '' })
