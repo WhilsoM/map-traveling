@@ -57,7 +57,6 @@ export const Posts = () => {
 					{t('posts.create')}
 				</ButtonUi>
 			</div>
-
 			<section className={s.posts__wrapper}>
 				{posts.length === 0 ? (
 					<p className={s.emptyPosts}>Постов нету</p>
