@@ -54,7 +54,7 @@ export const SignUp = () => {
 			<p className={s['sign-text']}>
 				{t('signup.alreadyhaveaccount')} ?{' '}
 				<Link className={s['sign-link']} to={'/auth/login'}>
-					{t('signin')}
+					{t('signup.signin')}
 				</Link>
 			</p>
 		</div>
