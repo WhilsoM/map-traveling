@@ -57,6 +57,15 @@
 }
 .createPostModal {
 	background-color: var(--white-color);
+
+	& > form {
+		height: calc(100vh - 166px);
+		overflow-y: scroll;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
 }
 .country_input,
 .city_input {
@@ -99,7 +108,7 @@
 .textInfo {
 	border: 1px solid #232323;
 	border-radius: $border-radius-elements;
-	width: 500px;
+	width: 100%;
 	height: 5rem;
 	overflow-y: scroll;
 	padding: 0.5rem 1rem;
@@ -163,4 +172,10 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, 0);
+}
+
+@media (max-width: 483px) {
+	.date_travel_wrapper {
+		flex-direction: column;
+	}
 }

@@ -5,7 +5,13 @@ import { ItalicIcon } from '@assets/icons/Ui/ItalicIcon'
 import { ButtonUi, InputUi } from '@ui/index'
 import { ModalUi, ModalUiProps } from '@ui/ModalUi/ModalUi'
 import DOMPurify from 'dompurify'
-import { type ChangeEvent, useRef, useState } from 'react'
+import {
+	type ChangeEvent,
+	FormEvent,
+	MouseEvent,
+	useRef,
+	useState,
+} from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useTranslation } from 'react-i18next'
 import s from '../posts.module.scss'
@@ -27,7 +33,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 	const author =
 		emailUser !== null || emailUser !== undefined ? emailUser : 'anonymus'
 
-	// utils/
+	//показываем картинку
 	const previewFile = () => {
 		const file = fileRef.current?.files?.[0]
 		if (!file || !imgRef.current) return
@@ -54,16 +60,16 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 		}
 		reader.readAsDataURL(file)
 	}
+
 	const cleanHTML = (html: string) => {
-		// clear HTML tags and only save in obj
 		return DOMPurify.sanitize(html, {
 			ALLOWED_TAGS: ['b', 'strong', 'i', 'u', 'em'],
 		})
 	}
-	const createPost = async () => {
+	const createPost = async (e: FormEvent<HTMLFormElement>) => {
 		checkValidation()
 
-		if (error.error) {
+		if (error.error || error.message.length < 1) {
 			return console.log('error', error.error)
 		}
 
@@ -95,7 +101,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 
 			setError({ error: true, message: error.message })
 		}
-
+		location.reload()
 		const { toast } = await import('react-toast')
 
 		toast(t('posts.successpostcreate'), {
@@ -121,27 +127,43 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 			})
 		}
 	}
-	// вынести в утилиты и сделать переиспользуемую функцию
+	// put the function in the folder utils/
 	const checkValidation = () => {
+		const firstValue = firstInputRef.current
+		const secondValue = secondInputRef.current
 		const MIN_LENGTH = 3
+		console.log(country.length < MIN_LENGTH || !country)
+		console.log(city.length < MIN_LENGTH || !city)
 
 		if (country.length < MIN_LENGTH || !country) {
-			return setError({
+			setError({
 				error: true,
 				message: t('posts.fieldneedwrite', { field: t('posts.country') }),
 			})
+			return
 		}
 		if (city.length < MIN_LENGTH || !city) {
-			return setError({
+			setError({
 				error: true,
 				message: t('posts.fieldneedwrite', { field: t('posts.city') }),
 			})
+			return
+		}
+		if (
+			(firstValue && firstValue.value.length < 1) ||
+			(secondValue && secondValue.value.length < 1)
+		) {
+			setError({
+				error: true,
+				message: 'Заполните даты',
+			})
+			return
 		}
 
 		return setError({ error: false, message: '' })
 	}
 
-	const handleCommand = (command: string) => (e: React.MouseEvent) => {
+	const handleCommand = (command: string) => (e: MouseEvent) => {
 		e.preventDefault()
 		const selection = window.getSelection()
 		if (selection && selection.rangeCount > 0) {
@@ -178,7 +200,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 
 	return (
 		<ModalUi className={s.createPostModal} setIsOpenModal={setIsOpenModal}>
-			<form onSubmit={createPost}>
+			<form onSubmit={(e) => createPost(e)}>
 				<div>
 					<label className={s['input-file']}>
 						<img ref={imgRef} width={'100%'} height={'200px'} />
