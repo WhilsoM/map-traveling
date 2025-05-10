@@ -1,4 +1,4 @@
-import { EmailAuth } from '@components/ChooseAuth/emailAuth/EmailAuth'
+import { EmailAuth } from '@components/EmailAuth/EmailAuth'
 import { formEmailSignIn, formPhoneSignIn } from '@shared/config/const'
 import { ButtonUi } from '@ui/index'
 import { useState } from 'react'
