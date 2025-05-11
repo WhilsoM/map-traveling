@@ -17,10 +17,11 @@ export const EmailAuth = ({ id, method }: { id: string; method: string }) => {
 	const [password, setPassword] = useState('')
 	const [errors, setErrors] = useState({ email: '', password: '' })
 	const navigate = useNavigate()
+	const checkValidationEmail = useCheckValidationEmail()
 	const { t } = useTranslation()
 
 	const registerWithEmail = async (email: string, password: string) => {
-		useCheckValidationEmail({ email, password, setErrors })
+		checkValidationEmail({ email, password, setErrors })
 
 		try {
 			const userCredential = await createUserWithEmailAndPassword(

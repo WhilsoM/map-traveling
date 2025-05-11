@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export interface checkValidationEmailProps {
@@ -12,26 +12,24 @@ export interface checkValidationEmailProps {
 	>
 }
 
-export const useCheckValidationEmail = ({
-	email,
-	password,
-	setErrors,
-}: checkValidationEmailProps) => {
+export const useCheckValidationEmail = () => {
 	const { t } = useTranslation()
 
-	if (email.length && password.length) {
-		setErrors({
-			email: '',
-			password: '',
-		})
-	}
-	if (!email || !password) {
-		setErrors({
-			email: t('emailauth.incorrectemail'),
-			password: t('emailauth.incorrectpassword'),
-		})
-		return
-	}
+	return useCallback(
+		({ email, password, setErrors }: checkValidationEmailProps) => {
+			if (email.length && password.length) {
+				setErrors({
+					email: '',
+					password: '',
+				})
+				return
+			}
 
-	return
+			setErrors({
+				email: t('emailauth.incorrectemail'),
+				password: t('emailauth.incorrectpassword'),
+			})
+		},
+		[t]
+	)
 }

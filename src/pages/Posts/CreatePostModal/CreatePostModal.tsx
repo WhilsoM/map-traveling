@@ -22,6 +22,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 	const firstInputRef = useRef<HTMLInputElement>(null)
 	const secondInputRef = useRef<HTMLInputElement>(null)
 	const infoRef = useRef<HTMLDivElement>(null)
+	const validate = useCheckValidationPost()
 	const { t } = useTranslation()
 
 	const emailUser = user[0]?.email
@@ -63,7 +64,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 	}
 
 	const createPost = async () => {
-		useCheckValidationPost({
+		validate({
 			firstInputRef,
 			secondInputRef,
 			country,
