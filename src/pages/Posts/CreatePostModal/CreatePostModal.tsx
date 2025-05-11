@@ -6,7 +6,13 @@ import { useCheckValidationPost } from '@shared/hooks/useCheckValidationPost'
 import { ButtonUi, InputUi } from '@ui/index'
 import { ModalUi, ModalUiProps } from '@ui/ModalUi/ModalUi'
 import DOMPurify from 'dompurify'
-import { type ChangeEvent, MouseEvent, useRef, useState } from 'react'
+import {
+	type ChangeEvent,
+	FormEvent,
+	MouseEvent,
+	useRef,
+	useState,
+} from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useTranslation } from 'react-i18next'
 import s from '../posts.module.scss'
@@ -63,7 +69,10 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 		})
 	}
 
-	const createPost = async () => {
+	const createPost = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+
+		console.log('creapost start')
 		validate({
 			firstInputRef,
 			secondInputRef,
@@ -71,6 +80,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 			city,
 			setError,
 		})
+		const { toast } = await import('react-toast')
 
 		if (error.error || error.message.length < 1) {
 			return console.log('error', error.error)
@@ -85,8 +95,11 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 			author: author,
 			img: imgRef.current?.src,
 		}
+		console.log('payload', payload)
 
 		try {
+			console.log('start post')
+
 			const res = await fetch(`${import.meta.env.VITE_API}api/posts`, {
 				method: 'POST',
 				headers: {
@@ -96,8 +109,14 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 			})
 
 			if (!res.ok || res.status === 400) {
+				toast('Ошибка создание поста', {
+					backgroundColor: 'red',
+					color: '#ffffff',
+				})
 				return setError({ error: true, message: t('posts.fields') })
 			}
+			console.log('good')
+
 			setIsOpenModal(false)
 		} catch (error: any) {
 			console.log('error', error)
@@ -105,7 +124,6 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 			setError({ error: true, message: error.message })
 		}
 		location.reload()
-		const { toast } = await import('react-toast')
 
 		toast(t('posts.successpostcreate'), {
 			backgroundColor: '#323131',
