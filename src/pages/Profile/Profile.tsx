@@ -49,7 +49,7 @@ export const Profile = () => {
 		try {
 			setIsLoading(true)
 			const snapshot = await get(dbRef(db, `users/${uid}`))
-			console.log(snapshot)
+
 			if (snapshot.exists()) {
 				const data = snapshot.val() as UserData
 

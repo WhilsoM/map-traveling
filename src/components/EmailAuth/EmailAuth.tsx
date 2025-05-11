@@ -1,4 +1,5 @@
 import { auth } from '@api/firebase'
+import { useCheckValidationEmail } from '@shared/hooks/useCheckValidationEmail'
 import { InputUi } from '@ui/index'
 import { FirebaseError } from 'firebase/app'
 import {
@@ -17,8 +18,9 @@ export const EmailAuth = ({ id, method }: { id: string; method: string }) => {
 	const [errors, setErrors] = useState({ email: '', password: '' })
 	const navigate = useNavigate()
 	const { t } = useTranslation()
+
 	const registerWithEmail = async (email: string, password: string) => {
-		checkValidation()
+		useCheckValidationEmail({ email, password, setErrors })
 
 		try {
 			const userCredential = await createUserWithEmailAndPassword(
@@ -28,8 +30,6 @@ export const EmailAuth = ({ id, method }: { id: string; method: string }) => {
 			)
 
 			const token = await userCredential.user.getIdToken()
-			console.log('user registered:', userCredential)
-			console.log(token)
 
 			if (token) {
 				navigate('/home')
@@ -52,7 +52,6 @@ export const EmailAuth = ({ id, method }: { id: string; method: string }) => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				const user = userCredential.user
-				console.log(user)
 
 				console.log('User signed in:', user)
 			})
@@ -61,23 +60,6 @@ export const EmailAuth = ({ id, method }: { id: string; method: string }) => {
 				const errorMessage = error.message
 				console.error('Sign-in error:', errorCode, errorMessage)
 			})
-	}
-
-	const checkValidation = () => {
-		if (email.length && password.length) {
-			setErrors({
-				email: '',
-				password: '',
-			})
-		}
-		if (!email || !password) {
-			setErrors({
-				email: t('emailauth.incorrectemail'),
-				password: t('emailauth.incorrectpassword'),
-			})
-			return
-		}
-		return
 	}
 
 	const handleSubmit = (e: FormEvent) => {

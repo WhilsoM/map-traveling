@@ -34,7 +34,6 @@ export const Posts = () => {
 	const getPosts = async () => {
 		try {
 			const response = await fetch(`${import.meta.env.VITE_API}api/posts`)
-			console.log('response ', response)
 
 			const data = await response.json()
 

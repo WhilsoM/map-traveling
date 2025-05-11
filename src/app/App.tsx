@@ -25,6 +25,8 @@ export const App = () => {
 					<Route path='profile-settings' element={<Profile />} />
 					<Route path='posts' element={<Posts />} />
 				</Route>
+
+				<Route path='*' element={<CheckAuthUser />} />
 			</Routes>
 			<ToastContainer delay={3000} />
 		</>

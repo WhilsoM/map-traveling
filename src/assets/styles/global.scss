@@ -72,6 +72,9 @@ html {
 .tac {
 	text-align: center;
 }
+.active {
+	opacity: 0.5;
+}
 .section-title {
 	font-size: $font-size-title;
 	font-weight: 700;
