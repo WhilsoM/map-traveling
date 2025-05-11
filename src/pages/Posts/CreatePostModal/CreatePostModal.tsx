@@ -2,7 +2,6 @@ import { auth } from '@api/firebase'
 import { BoldIcon } from '@assets/icons/Ui/BoldIcon'
 import { ImgIcon } from '@assets/icons/Ui/ImgIcon'
 import { ItalicIcon } from '@assets/icons/Ui/ItalicIcon'
-import { useCheckValidationPost } from '@shared/hooks/useCheckValidationPost'
 import { ButtonUi, InputUi } from '@ui/index'
 import { ModalUi, ModalUiProps } from '@ui/ModalUi/ModalUi'
 import DOMPurify from 'dompurify'
@@ -28,7 +27,7 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 	const firstInputRef = useRef<HTMLInputElement>(null)
 	const secondInputRef = useRef<HTMLInputElement>(null)
 	const infoRef = useRef<HTMLDivElement>(null)
-	const validate = useCheckValidationPost()
+	// const validate = useCheckValidationPost()
 	const { t } = useTranslation()
 
 	const emailUser = user[0]?.email
@@ -73,16 +72,16 @@ export const CreatePostModal = ({ setIsOpenModal }: CreatePostModalProps) => {
 		e.preventDefault()
 
 		console.log('creapost start')
-		validate({
-			firstInputRef,
-			secondInputRef,
-			country,
-			city,
-			setError,
-		})
+		// validate({
+		// 	firstInputRef,
+		// 	secondInputRef,
+		// 	country,
+		// 	city,
+		// 	setError,
+		// })
 		const { toast } = await import('react-toast')
 
-		if (error.error || error.message.length < 1) {
+		if (error.error || error.message.length > 1) {
 			return console.log('error', error.error)
 		}
 
